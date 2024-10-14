@@ -82,7 +82,7 @@ function _createMail(newMail) {
 
 
 function _createMails() {
-    console.log('_createMails')
+   
     let mails = loadFromStorage(MAIL_KEY)
 
     if (!mails || !mails.length) {
@@ -94,7 +94,7 @@ function _createMails() {
 
         saveToStorage(MAIL_KEY, mails)
     }
-    console.log(mails)
+    // console.log(mails)
 }
 
 

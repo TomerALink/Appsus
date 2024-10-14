@@ -18,15 +18,8 @@ export function MailList({ mails, onRemoveMail, onReadMail }) {
 
                         <div onClick={() => onNavToMailDetails(mail.id)}>
 
-                            <MailPreview mail={mail} />
+                            <MailPreview mail={mail} onRemoveMail={onRemoveMail} onReadMail={onReadMail}/>
                         </div>
-                        <section>
-                            {/* <button onClick={() => onRemoveMail(mail.id)}>Remove</button> */}
-                            {/* <button onClick={() => onReadMail(mail.id)}>Remove</button> */}
-
-
-                        </section>
-
                     </li>
                 )}
             </ul>

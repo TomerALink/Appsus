@@ -29,13 +29,14 @@
     color: var(--mono-color-03)
 }
 
-.send-button {
+.mail-compose .send-button {
     background-color: var(--button);
     color: var(--mono-color-01);
     font-size: 1em;
     padding: 0.5em 1em;
     border-radius: 1.2em;
     border: none;
+    cursor: pointer;
 }
 .close-button {
     position: absolute;
@@ -44,4 +45,5 @@
     background-color: unset;
     border: unset;
     font-weight: bold;
+    cursor: pointer;
 }

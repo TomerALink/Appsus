@@ -1,10 +1,10 @@
 
 import { utilService } from "../../../services/util.service.js"
 
-export function MailPreview({ mail }) {
+export function MailPreview({ mail, onRemoveMail, onReadMail }) {
 
-    
-    const { subject, body, isRead, sentAt,  from } = mail
+    {/* <button onClick={() => onRemoveMail(mail.id)}>Remove</button> */ }
+    const { subject, body, isRead, sentAt, from } = mail
 
     //TODO handel stars... add onclick for nav to MailDetails
     //TODO Renders the subject (with text size limit) 
@@ -20,7 +20,19 @@ export function MailPreview({ mail }) {
             <span>{subject} </span>
             <span>{body} </span>
             <span>{utilService.epochToDate(sentAt)} </span>
-            <div className="buttons" ><a  className="fa-solid fa-envelope-open"> </a> <a className="fa-solid fa-trash">   </a> </div>
+            <div className="buttons" >
+                <a className="fa-solid fa-envelope-open"onClick={(e) => {
+                    e.stopPropagation()
+                    onReadMail(mail.id)
+                }}>
+
+                </a>
+                <a className="fa-solid fa-trash" onClick={(e) => {
+                    e.stopPropagation()
+                    onRemoveMail(mail.id)
+                }}>
+                </a>
+            </div>
         </div>
     )
 }

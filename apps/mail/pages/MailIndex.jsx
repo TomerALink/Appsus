@@ -8,19 +8,20 @@ const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
 
 export function MailIndex() {
-    
+
 
     const [mails, setMails] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
-//     // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    //     // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
 
 
 
     useEffect(() => {
         // setSearchParams(getTruthyValues(filterBy))
         loadMails()
-    // }, [filterBy])
-}, [])
+        
+        // }, [filterBy])
+    }, [ ])
 
     function loadMails() {
         // mailService.query(filterBy)
@@ -32,6 +33,7 @@ export function MailIndex() {
     }
 
     function onRemoveMail(mailId) {
+
         mailService.remove(mailId)
             .then(() => {
                 setMails(mails =>
@@ -51,7 +53,24 @@ export function MailIndex() {
     //     setFilterBy(prevFilter => ({...prevFilter, ...filterByToEdit}))
     // }
 
-   
+
+
+    function onReadMail(mailId) {
+
+        const updatedMails = mails.map(mail => {
+
+            if (mail.id === mailId) {
+                mail.isRead = true
+
+            }
+            return mail
+        })
+    
+        mailService.save(updatedMails.find(mail => mail.id === mailId))
+        setMails(updatedMails)
+
+    }
+
 
     if (!mails) return <div>Loading...</div>
     return (
@@ -60,8 +79,8 @@ export function MailIndex() {
             <section>
                <button> <Link to="/mail/add-manual"> Add Mail</Link> </button>
             </section> */}
-            <MailList   onRemoveMail={onRemoveMail} mails={mails} />
-           
+            <MailList onRemoveMail={onRemoveMail} onReadMail={onReadMail} mails={mails} />
+
         </section>
     )
 

@@ -10,22 +10,31 @@ export function MailCompose() {
         from: mailService.loggedinUser.email,
         subject: '',
         body: ''
-      });
+      })
     
       const handleChange = (e) => {
-        setEmail({ ...email, [e.target.name]: e.target.value });
-      };
+        setEmail({ ...email, [e.target.name]: e.target.value })
+      }
     
       const handleSend = () => {
         // Logic for sending email can be added here
-        alert(`Email sent to ${email.to} from ${email.from}`);
-      };
+        alert(`Email sent to ${email.to} from ${email.from}`)
+      }
+
+      const navigate = useNavigate()
+
+      function onNavToMail(){
+
+        navigate(`/mail/`)
+      }
+
+
 
     return (
         (
             <div className="mail-compose">
               <h2>New Message</h2>
-              <button className="close-button">X</button>
+              <button className="close-button" onClick={onNavToMail}>X</button>
               <div>
                 <label>From: </label>
                 <span className="from-input">{email.from}</span>
