@@ -6,6 +6,10 @@ import { hc_mails } from '../mails.js'
 const MAIL_KEY = 'mailDN'
 
 
+const loggedinUser = { 
+    email: 'user@appsus.com',  
+    fullname: 'Mahatma Appsus' 
+    }
 
 export const mailService = {
     query,
@@ -16,9 +20,11 @@ export const mailService = {
     // getDefaultFilter,
     // add,
     // getFilterFromSearchParams,
+    loggedinUser
 }
 
 _createMails()
+
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
@@ -35,7 +41,7 @@ function query(filterBy = {}) {
 }
 
 function get(mailId) {
-    return storageService.get(MAIL_KEY, mailId).then(_setNextPrevMailId)
+    return storageService.get(MAIL_KEY, mailId)
 }
 
 function remove(mailId) {

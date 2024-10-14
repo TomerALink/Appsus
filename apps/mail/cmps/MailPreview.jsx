@@ -1,4 +1,6 @@
 
+import { utilService } from "../../../services/util.service.js"
+
 export function MailPreview({ mail }) {
 
     
@@ -9,12 +11,6 @@ export function MailPreview({ mail }) {
     //TODO  Gives visual indication for read/unread   
     //TODO  Support hover state   
 
-    function epochToDate(epoch) {
-        const date = new Date(epoch);
-        const options = { month: 'short', day: 'numeric' };
-        const str = date.toLocaleString('en-US', options);
-        return str;
-    }
 
     const isReadClass = isRead ? 'read' : 'unread'
     return (
@@ -23,8 +19,8 @@ export function MailPreview({ mail }) {
             <span>{from} </span>
             <span>{subject} </span>
             <span>{body} </span>
-            <span>{epochToDate(sentAt)} </span>
-            <div className="buttons" ><a  class="fa-solid fa-envelope-open"> </a> <a class="fa-solid fa-trash">   </a> </div>
+            <span>{utilService.epochToDate(sentAt)} </span>
+            <div className="buttons" ><a  className="fa-solid fa-envelope-open"> </a> <a className="fa-solid fa-trash">   </a> </div>
         </div>
     )
 }
