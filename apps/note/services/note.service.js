@@ -1,131 +1,87 @@
-// note service
+import { makeId } from '../../services/util.service.js'
+import { loadFromStorage, saveToStorage } from '../../services/storage.service.js'
+import { storageService } from '../../services/async-storage.service.js'
+import { hc_notes } from '../notes.js'
 
-const notes = [
-    {
-        id: 'n101',
-        createdAt: 1112222,
-        type: 'NoteTxt',
-        isPinned: true,
-        style: {
-            backgroundColor: '#00d'
-        },
-        info: {
-            txt: 'Fullstack Me Baby!'
-        }
-    },
-    {
-        id: 'n102',
-        createdAt: 1112223,
-        type: 'NoteImg',
-        isPinned: false,
-        info: {
-            url: 'http://some-img/me',
-            title: 'Bobi and Me'
-        },
-        style: {
-            backgroundColor: '#00d'
-        }
-    },
-    {
-        id: 'n103',
-        createdAt: 1112224,
-        type: 'NoteTodos',
-        isPinned: false,
-        info: {
-            title: 'Get my stuff together',
-            todos: [
-                { txt: 'Driving license', doneAt: null },
-                { txt: 'Coding power', doneAt: 187111111 }
-            ]
-        }
-    }
-]
+const NOTE_KEY = 'noteDN'
 
-/////////////////////////////////////
-
-import { loadFromStorage, makeId, saveToStorage } from './util.service.js'
-import { storageService } from './async-storage.service.js'
-
-const CAR_KEY = 'carDB'
-_createCars()
+_createNotes()
 
 export const carService = {
     query,
     get,
     remove,
     save,
-    getEmptyCar,
-    getDefaultFilter,
+    getEmptyNote,
+    // getDefaultFilter,
+    // getFilterFromSearchParams,
+    // add,
 }
 
 function query(filterBy = {}) {
-    return storageService.query(CAR_KEY)
-        .then(cars => {
-            if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                cars = cars.filter(car => regExp.test(car.vendor))
-            }
-            if (filterBy.minSpeed) {
-                cars = cars.filter(car => car.speed >= filterBy.minSpeed)
-            }
-            return cars
+    return storageService.query(NOTE_KEY)
+        .then(notes => {
+            // if (filterBy.txt) {
+            //     const regExp = new RegExp(filterBy.txt, 'i')
+            //     notes = notes.filter(note => regExp.test(note.vendor))
+            // }
+            // if (filterBy.minSpeed) {
+            //     notes = notes.filter(note => note.speed >= filterBy.minSpeed)
+            // }
+            return notes
         })
 }
 
-function get(carId) {
-    return storageService.get(CAR_KEY, carId).then(_setNextPrevCarId)
+function get(noteId) {
+    return storageService.get(NOTE_KEY, noteId).then(_setNextPrevNoteId)
 }
 
-function remove(carId) {
+function remove(noteId) {
     // return Promise.reject('Oh No!')
-    return storageService.remove(CAR_KEY, carId)
+    return storageService.remove(NOTE_KEY, noteId)
 }
 
-function save(car) {
-    if (car.id) {
-        return storageService.put(CAR_KEY, car)
+function save(note) {
+    if (note.id) {
+        return storageService.put(NOTE_KEY, note)
     } else {
-        return storageService.post(CAR_KEY, car)
+        return storageService.post(NOTE_KEY, note)
     }
 }
 
-function getEmptyCar(vendor = '', speed = '') {
-    return { vendor, speed }
+// function add(note) {
+//     return storageService.post(NOTE_KEY, note)
+// }
+
+// function getDefaultFilter() {
+//     return { txt: '', minSpeed: '' }
+// }
+
+
+function getEmptyNote(id, createdAt = new Date(), type = '', isPinned = false, style = { backgroundColor: '#00d' }, info = { txt: 'Fullstack Me Baby!' }) {
+    return { id, createdAt, type, isPinned, style, info }
 }
+function _createNotes() {
+    console.log('_createNotes')
+    let notes = loadFromStorage(NOTE_KEY)
 
-function getDefaultFilter() {
-    return { txt: '', minSpeed: '' }
-}
+    if (!notes || !notes.length) {
 
+        notes =
+            hc_notes.map(note =>
+                _createNote(note)
+            )
 
-
-function _createCars() {
-    let cars = loadFromStorage(CAR_KEY)
-    if (!cars || !cars.length) {
-        cars = [
-            _createCar('audu', 300),
-            _createCar('fiak', 120),
-            _createCar('subali', 50),
-            _createCar('mitsu', 150)
-        ]
-        saveToStorage(CAR_KEY, cars)
+        saveToStorage(NOTE_KEY, notes)
     }
+    console.log(notes)
 }
 
-function _createCar(vendor, speed = 250) {
-    const car = getEmptyCar(vendor, speed)
-    car.id = makeId()
-    return car
-}
+function _createNote(newNote) {
+    const { id, createdAt, type, isPinned, style, info } = newNote
+    const note = getEmptyNote(id, createdAt, type, isPinned, style, info)
+    console.log(note)
+    if (!id) note.id = makeId()
 
-
-function _setNextPrevCarId(car) {
-    return query().then((cars) => {
-        const carIdx = cars.findIndex((currCar) => currCar.id === car.id)
-        const nextCar = cars[carIdx + 1] ? cars[carIdx + 1] : cars[0]
-        const prevCar = cars[carIdx - 1] ? cars[carIdx - 1] : cars[cars.length - 1]
-        car.nextCarId = nextCar.id
-        car.prevCarId = prevCar.id
-        return car
-    })
+    return note
 }
