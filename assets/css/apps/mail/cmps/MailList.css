@@ -1,0 +1,14 @@
+ /* mail list */
+ .mail-list{   
+    display: grid;
+    
+ }
+
+ .mail-list li{
+    list-style:none;
+    
+ }
+
+ .mail-list:first-child{
+    border-top: 1px solid lightgray;
+}
