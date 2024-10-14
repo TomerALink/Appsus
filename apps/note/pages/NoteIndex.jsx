@@ -1,8 +1,8 @@
 // import { NoteFilter } from "../cmps/NoteFilter.jsx"
 import { NoteList } from "../cmps/NoteList.jsx"
 import { noteService } from "../services/note.service.js"
-import { getTruthyValues } from "../../services/util.service.js"
-import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service.js"
+import { getTruthyValues } from "../../../services/util.service.js"
+import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
