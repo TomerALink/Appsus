@@ -1,8 +1,8 @@
 // import { NoteFilter } from "../cmps/NoteFilter.jsx"
 import { NoteList } from "../cmps/NoteList.jsx"
 import { noteService } from "../services/note.service.js"
-import { getTruthyValues } from "../../services/util.service.js"
-import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service.js"
+import { getTruthyValues } from "../../../services/util.service.js"
+import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 
 const { useState, useEffect } = React
 const { Link, useSearchParams } = ReactRouterDOM
@@ -31,7 +31,7 @@ export function NoteIndex() {
     function onRemoveNote(noteId) {
         noteService.remove(noteId)
             .then(() => {
-                setMails(notes =>
+                setNotes(notes =>
                     notes.filter(note => note.id !== noteId)
                 )
             })
@@ -52,7 +52,7 @@ export function NoteIndex() {
     return (
         <section className="note-index">
             {/* <NoteFilter onSetFilter={onSetFilter} filterBy={filterBy} />*/}
-            <NoteList onRemoveMail={onRemoveNote} notes={notes} />
+            <NoteList onRemoveNote={onRemoveNote} notes={notes} />
 
         </section>
     )
