@@ -6,6 +6,7 @@ export const utilService = {
     padNum,
     getDayName,
     getMonthName,
+    epochToDate
 }
 
 function makeId(length = 6) {
@@ -59,4 +60,11 @@ function getMonthName(date) {
         "July", "August", "September", "October", "November", "December"
     ]
     return monthNames[date.getMonth()]
+}
+
+function epochToDate(epoch) {
+    const date = new Date(epoch);
+    const options = { month: 'short', day: 'numeric' };
+    const str = date.toLocaleString('en-US', options);
+    return str;
 }
