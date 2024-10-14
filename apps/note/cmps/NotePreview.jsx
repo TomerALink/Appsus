@@ -2,6 +2,10 @@ export function NotePreview({ note }) {
 
 }
 /////////////////////////////
+// Build the root component: <NoteIndex>
+// This component renders the <NotePreview> component that allow viewing the notes
+// preview, and also changing color, pin, etc.
+
 // The <NotePreview> component, uses a dynamic component to show different types
 // of notes:
     // o <NoteTxt>

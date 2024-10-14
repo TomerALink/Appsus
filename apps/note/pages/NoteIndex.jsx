@@ -1,80 +1,59 @@
-const { Link } = ReactRouterDOM
-
-import { NoteFilter } from "../cmps/NoteFilter.jsx"
+// import { NoteFilter } from "../cmps/NoteFilter.jsx"
 import { NoteList } from "../cmps/NoteList.jsx"
-import { NoteService } from "../services/note.service.js"
-import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
+import { noteService } from "../services/note.service.js"
+import { getTruthyValues } from "../../services/util.service.js"
+import { showErrorMsg, showSuccessMsg } from "../../services/event-bus.service.js"
 
 const { useState, useEffect } = React
-
+const { Link, useSearchParams } = ReactRouterDOM
 
 export function NoteIndex() {
-    return <div>note app</div>
-}
 
-
-///////////////////////////////////////////////////
-
-// Build the root component: <NoteIndex>
-// This component renders the <NotePreview> component that allow viewing the notes
-// preview, and also changing color, pin, etc.
-
-///////////////////////////////////////////////////////////////////////
-
-// const { Link } = ReactRouterDOM
-
-// import { CarFilter } from "../cmps/CarFilter.jsx"
-// import { CarList } from "../cmps/CarList.jsx"
-// import { carService } from "../services/car.service.js"
-// import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
-
-// const { useState, useEffect } = React
-
-export function CarIndex() {
-
-    const [cars, setCars] = useState(null)
-    const [filterBy, setFilterBy] = useState(carService.getDefaultFilter())
+    const [notes, setNotes] = useState(null)
+    const [searchParams, setSearchParams] = useSearchParams()
+    // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
 
     useEffect(() => {
-        loadCars()
-    }, [filterBy])
+        // setSearchParams(getTruthyValues(filterBy))
+        loadNotes()
+        // }, [filterBy])
+    }, [])
 
-    function loadCars() {
-        carService.query(filterBy)
-            .then(setCars)
+    function loadNotes() {
+        // mailService.query(filterBy)
+        noteService.query()
+            .then(setNotes)
             .catch(err => {
                 console.log('err:', err)
             })
     }
 
-    function onRemoveCar(carId) {
-        carService.remove(carId)
+    function onRemoveNote(noteId) {
+        noteService.remove(noteId)
             .then(() => {
-                setCars(cars =>
-                    cars.filter(car => car.id !== carId)
+                setMails(notes =>
+                    notes.filter(note => note.id !== noteId)
                 )
-                showSuccessMsg('Car removed successfully')
             })
+            .then(
+                showSuccessMsg(`Note removed successfully!`)
+            )
             .catch(err => {
-                console.log('Problems removing car:', err)
-                showErrorMsg(`Problems removing car (${carId})`)
+                showErrorMsg(`Problems removing note ${noteId}`)
+                console.log('Problems removing note:', err)
             })
     }
 
-    function onSetFilter(filterByToEdit) {
-        setFilterBy(prevFilter => ({ ...prevFilter, ...filterByToEdit }))
-    }
+    // function onSetFilter(filterByToEdit) {
+    //     setFilterBy(prevFilter => ({ ...prevFilter, ...filterByToEdit }))
+    // }
 
-
-
-    if (!cars) return <div>Loading...</div>
+    if (!notes) return <div>Loading...</div>
     return (
-        <section className="car-index">
-            <CarFilter onSetFilter={onSetFilter} filterBy={filterBy} />
-            <section>
-                <Link to="/car/edit">Add Car</Link>
-            </section>
-            <CarList onRemoveCar={onRemoveCar} cars={cars} />
+        <section className="note-index">
+            {/* <NoteFilter onSetFilter={onSetFilter} filterBy={filterBy} />*/}
+            <NoteList onRemoveMail={onRemoveNote} notes={notes} />
+
         </section>
     )
 
