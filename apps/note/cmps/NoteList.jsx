@@ -1,30 +1,25 @@
-export function NoteList() {
-    return <div>note list</div>
-}
-
-
-//////////////////////////////
-
 const { Link } = ReactRouterDOM
+import { NotePreview } from "./NotePreview.jsx";
 
-
-import { CarPreview } from "./CarPreview.jsx";
-
-export function CarList({ cars, onRemoveCar }) {
+export function NoteList({ notes, onRemoveNote }) {
 
     return (
-        <ul className="car-list">
-            {cars.map(car =>
-                <li key={car.id}>
-                    <CarPreview car={car} />
-                    <section>
-                        <button onClick={() => onRemoveCar(car.id)}>Remove</button>
-                        <button ><Link to={`/car/${car.id}`}>Details</Link></button>
-                        <button ><Link to={`/car/edit/${car.id}`}>Edit</Link></button>
-                    </section>
-                </li>
-            )}
-        </ul>
+        <React.Fragment>
+            <ul className="note-list">
+                {notes.map(note =>
+                    <li key={note.id}>
+                        <NotePreview note={note} />
+                        <section>
+                            <button onClick={() => onPinNote(note.id)}>Pin</button>
+                            <button onClick={() => onColorNote(note.id)}>Color</button>
+                            <button onClick={() => onSendNote(note.id)}>Send</button>
+                            <button onClick={() => onEditNote(note.id)}>Edit</button>
+                            <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+                        </section>
+                    </li>
+                )}
+            </ul>
+        </React.Fragment>
     )
 
 }

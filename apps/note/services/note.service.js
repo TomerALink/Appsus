@@ -1,7 +1,7 @@
 import { makeId } from '../../services/util.service.js'
 import { loadFromStorage, saveToStorage } from '../../services/storage.service.js'
 import { storageService } from '../../services/async-storage.service.js'
-import { hc_notes } from '../notes.js'
+import { hc_notes } from './notes.js'
 
 const NOTE_KEY = 'noteDN'
 
