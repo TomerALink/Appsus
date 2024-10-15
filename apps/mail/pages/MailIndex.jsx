@@ -44,6 +44,9 @@ export function MailIndex() {
         .catch(error => {
             console.error("Failed to save mail:", error)
         })
+        .finally(
+            toggleCompose()
+        )
     }
 
     function loadMails() {
