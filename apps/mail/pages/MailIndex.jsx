@@ -1,6 +1,7 @@
 import { MailFilter } from "../cmps/MailFilter.jsx"
 import { MailList } from "../cmps/MailList.jsx"
-import { mailService } from "../../../services/mail.service.js"
+import { MailFolderList } from "../cmps/MailFolderList.jsx"
+import { mailService } from "../services/mail.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
 
@@ -30,14 +31,14 @@ export function MailIndex() {
 
         const updatedMail = { ...mail, sentAt: new Date() }
         mailService.save(updatedMail)
-        .then(() => {
+        .then((savedMail) => {
             setMails(prevMails => {
                 const mailExists = prevMails.some(m => m.id === mail.id)
 
                 if (mailExists) {
                     return prevMails.map(m => m.id === mail.id ? updatedMail : m)
                 } else {
-                    return [...prevMails, updatedMail]
+                    return [...prevMails, savedMail]
                 }
             });
         })
@@ -133,20 +134,8 @@ export function MailIndex() {
             </div>
             
             <div className="aside-main">
-                 <nav className="side-menu">
-                    <ul>
-                        <li><i className="fa-solid fa-inbox"></i>Inbox <span>10</span></li>
-                    
-                        <li><i className="fa-regular fa-star"></i>Starred</li>
-                    
-                        <li><i className="fa-regular fa-paper-plane"></i>Sent</li>
-                   
-                        <li><i className="fa-regular fa-file"></i>Draft</li>
-                    
-                        <li><i className="fa-regular fa-trash"></i>Trash</li>
-                    </ul>
-                    
-                </nav>
+            <MailFolderList mails={mails} />
+                 
                 <main>
   
                     <MailList toggleCompose={toggleCompose} isComposeVisible={isComposeVisible} onSendMail={onSendMail} onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} mails={mails} />
