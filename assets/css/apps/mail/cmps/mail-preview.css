@@ -34,3 +34,12 @@
 .mail-preview .buttons a:hover{
     color: var(--mono-color-04);
 }
+
+.star {
+    color: lightgray;
+    transition: color 200ms;
+}
+
+.star.filled {
+    color: gold;
+}

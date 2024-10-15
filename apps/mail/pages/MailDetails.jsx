@@ -25,7 +25,7 @@ export function MailDetails() {
 
   if (!mail) return <div>Loading...</div>;
 
-  const { id, createdAt, subject, body, isRead, sentAt, removedAt, from, to } = mail;
+  const { id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to } = mail;
 
   function onBack() {
     navigate("/mail")

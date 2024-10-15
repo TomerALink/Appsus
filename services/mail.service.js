@@ -17,9 +17,9 @@ export const mailService = {
     remove,
     save,
     getEmptyMail,
-    // getDefaultFilter,
+    getDefaultFilter,
     // add,
-    // getFilterFromSearchParams,
+    getFilterFromSearchParams,
     loggedinUser
 }
 
@@ -63,17 +63,18 @@ function save(mail) {
 //     return storageService.post(MAIL_KEY, mail)
 // }
 
-// function getDefaultFilter() {
-//     return { txt: '', price: '' }
-// }
+function getDefaultFilter() {
+    // return { txt: '', price: '' }
+    return { txt: '' }
+}
 
-function getEmptyMail(id, createdAt = new Date, subject ='', body ='', isRead = false, sentAt = new Date, removedAt = new Date, from = '', to ='') {
-    return { id, createdAt, subject, body, isRead, sentAt, removedAt, from, to}
+function getEmptyMail(id, createdAt = new Date, subject ='', body ='', isRead = false, isStared=false ,sentAt = new Date, removedAt = new Date, from = '', to ='') {
+    return { id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to}
 }
 
 function _createMail(newMail) {
-    const { id, createdAt, subject, body, isRead, sentAt, removedAt, from, to } = newMail
-    const mail = getEmptyMail(id, createdAt, subject, body, isRead, sentAt, removedAt, from, to)
+    const { id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to } = newMail
+    const mail = getEmptyMail(id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to)
     console.log(mail)
     if (!id) mail.id = makeId()
 
@@ -113,11 +114,11 @@ function _createMails() {
 
 
 
-// function getFilterFromSearchParams(searchParams) {
-//     const txt = searchParams.get('txt') || ''
-//     const price = searchParams.get('price') || ''
-//     return {
-//         txt,
-//         price
-//     }
-// }
+function getFilterFromSearchParams(searchParams) {
+    const txt = searchParams.get('txt') || ''
+    // const price = searchParams.get('price') || ''
+    return {
+        txt,
+        price
+    }
+}

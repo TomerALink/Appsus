@@ -1,4 +1,4 @@
-// import { MailFilter } from "../cmps/MailFilter.jsx"
+import { MailFilter } from "../cmps/MailFilter.jsx"
 import { MailList } from "../cmps/MailList.jsx"
 import { mailService } from "../../../services/mail.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
@@ -12,7 +12,7 @@ export function MailIndex() {
 
     const [mails, setMails] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
-    //     // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+        // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
 
 
 
@@ -71,15 +71,31 @@ export function MailIndex() {
 
     }
 
+    function onStaredMail(mailId) {
+
+        const updatedMails = mails.map(mail => {
+
+            if (mail.id === mailId) {
+                mail.isStared = !mail.isStared
+
+            }
+            return mail
+        })
+    
+        mailService.save(updatedMails.find(mail => mail.id === mailId))
+        setMails(updatedMails)
+
+    }
+
 
     if (!mails) return <div>Loading...</div>
     return (
         <section className="mail-index">
-            {/* <MailFilter onSetFilter={onSetFilter} filterBy={filterBy} />
-            <section>
+            {/* <MailFilter onSetFilter={onSetFilter} filterBy={filterBy} /> */}
+            {/* <section>
                <button> <Link to="/mail/add-manual"> Add Mail</Link> </button>
             </section> */}
-            <MailList onRemoveMail={onRemoveMail} onReadMail={onReadMail} mails={mails} />
+            <MailList onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} mails={mails} />
 
         </section>
     )

@@ -6,10 +6,11 @@ export const hc_mails = [
         subject: 'Miss you!',
         body: 'Would love to catch up sometimes',
         isRead: false,
+        isStared: false,
         sentAt: 1551133930594,
         removedAt: null,
         from: 'momo@momo.com',
-        to: 'user@appsus.com'
+        to: 'user@appsus.com',
     },
     {
         id: 'e102',
@@ -17,6 +18,7 @@ export const hc_mails = [
         subject: 'Miss you!',
         body: 'Would love to catch up sometimes',
         isRead: true,
+        isStared: false,
         sentAt: 1551133930594,
         removedAt: null,
         from: 'momo@momo.com',
@@ -28,6 +30,7 @@ export const hc_mails = [
         subject: 'Miss you!',
         body: 'Would love to catch up sometimes',
         isRead: false,
+        isStared: false,
         sentAt: 1551133930594,
         removedAt: null,
         from: 'momo@momo.com',
