@@ -1,9 +1,10 @@
 
 
-const {useNavigate, Link, Outlet } = ReactRouterDOM
+const {useNavigate } = ReactRouterDOM
 import { MailPreview } from "./MailPreview.jsx"
+import { MailCompose } from "./MailCompose.jsx"
 
-export function MailList({ mails, onRemoveMail, onReadMail, onStaredMail }) {
+export function MailList({onSendMail, mails, onRemoveMail, onReadMail, onStaredMail, isComposeVisible, toggleCompose }) {
 
     const navigate = useNavigate()
 
@@ -12,6 +13,7 @@ export function MailList({ mails, onRemoveMail, onReadMail, onStaredMail }) {
     }
     return (
         <React.Fragment>
+            
             <ul className="mail-list">
                 {mails.map(mail =>
                     <li key={mail.id}>
@@ -23,11 +25,8 @@ export function MailList({ mails, onRemoveMail, onReadMail, onStaredMail }) {
                     </li>
                 )}
             </ul>
-            <nav>
-            <button className="send-button"><Link to="/mail/newMail">New mail</Link></button>
-
-            </nav>
-            <Outlet />
+            {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail}/>}
+ 
         </React.Fragment>
     )
 }

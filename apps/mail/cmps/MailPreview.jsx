@@ -3,27 +3,25 @@ import { utilService } from "../../../services/util.service.js"
 
 export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
 
-    const { subject, body, isRead, isStared, sentAt, from } = mail
-
+    
     //TODO handel stars... add onclick for nav to MailDetails
     //TODO Renders the subject (with text size limit) 
     //TODO  Gives visual indication for read/unread   
     //TODO  Support hover state   
-   
+    
+    const { subject, body, isRead, isStared, sentAt, from } = mail
 
-    const star = 1
-    const [hover, setHover] = useState(isStared)
     const isReadClass = isRead ? 'read' : 'unread'
     return (
         <div className={`mail-preview ${isReadClass}`}>
             <span
-                className={hover ? "star filled" : "star"}
+                className={isStared ? "star filled" : "star"}
                 onClick={(e) => {
+                    console.log(isStared)
                     e.stopPropagation()
                     onStaredMail(mail.id)
                 }}
-                onMouseEnter={() => setHover(star)}
-                onMouseLeave={() => setHover(0)}
+
                 style={{ cursor: "pointer", fontSize: "2rem" }}
                 
             >

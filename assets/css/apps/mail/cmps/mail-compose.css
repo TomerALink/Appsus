@@ -29,7 +29,7 @@
     color: var(--mono-color-03)
 }
 
-.mail-compose .send-button {
+.send-button {
     background-color: var(--button);
     color: var(--mono-color-01);
     font-size: 1em;

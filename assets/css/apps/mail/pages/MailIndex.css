@@ -1,1 +1,37 @@
  /* mail index  */
+ .aside-main {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+ }
+
+ .side-menu {
+    background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+ }
+ .aside-mail aside {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 1em;
+    height: 100vh;
+    
+ }
+
+ .side-menu ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .side-menu li {
+    margin-bottom: 10px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: .5em;
+  }
+
+  .side-menu li:hover {
+    background-color: aqua;
+    border-radius: 1.25em;
+  }

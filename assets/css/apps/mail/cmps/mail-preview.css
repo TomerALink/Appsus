@@ -1,6 +1,7 @@
 .mail-preview{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 4fr 4fr 10fr 1fr;
+    justify-content: space-between;
     border-bottom: 1px solid var(--mono-color-02);
     padding: 0.5em;
     margin: 0;

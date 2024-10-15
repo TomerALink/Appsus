@@ -1,3 +1,6 @@
-.mail-detals {
-    
+.mail-details {
+    margin:2em;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 5fr;
+    height: 80vw;
 }

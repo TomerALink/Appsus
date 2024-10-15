@@ -6,7 +6,7 @@ export function MailFilter({ filterBy, onSetFilter }) {
 
 
     useEffect(() => {
-        onSetMailFilter(mailFilterBy)
+        onSetFilter(mailFilterBy)
     }, [mailFilterBy])
 
     function handleChange({ target }) {
@@ -27,7 +27,7 @@ export function MailFilter({ filterBy, onSetFilter }) {
         setMailFilterBy(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
-    const { txt} = mailFilterBy// TODO add more
+    const { txt } = mailFilterBy// TODO add more
     return (
         <section className="mail-filter">
             <h2>Filter Our Mails</h2>
@@ -35,8 +35,16 @@ export function MailFilter({ filterBy, onSetFilter }) {
                 <label htmlFor="txt">Seaech mail</label>
                 <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
 
-                {/* <label htmlFor="minSpeed">Max Price</label>
-                <input onChange={handleChange} value={price || ''} type="number" name="price" id="price" /> */}
+
+                <label>
+                    <input type="checkbox" value={false} onChange={handleChange} name="unread" id="unread"/>
+                    {"Unread emails"}
+                </label>
+
+                <label>
+                    <input type="checkbox" value={false} onChange={handleChange} name="stared" id="stared"/>
+                    {"Stared emails"}
+                </label>
 
                 <button>Submit</button>
             </form>
