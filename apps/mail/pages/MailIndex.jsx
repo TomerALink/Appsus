@@ -21,7 +21,7 @@ export function MailIndex() {
         loadMails()
         
         // }, [filterBy])
-    }, [ ])
+    }, [mails ])
 
     function loadMails() {
         // mailService.query(filterBy)

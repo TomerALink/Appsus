@@ -5,20 +5,39 @@ const { useNavigate, useParams } = ReactRouterDOM
 
 export function MailCompose() {
 
-    const [email, setEmail] = useState({
-        to: '',
-        from: mailService.loggedinUser.email,
-        subject: '',
-        body: ''
-      })
-    
-      const handleChange = (e) => {
-        setEmail({ ...email, [e.target.name]: e.target.value })
-      }
+
+    const [mail, setEmail] = useState({...mailService.getEmptyMail(), ...{from: mailService.loggedinUser.email}})
+
+      function handleChange({ target }) {
+        const field = target.name
+        let value = target.value
+        // value += ','
+        switch (target.type) {
+            case 'number':
+            case 'range':
+                value = +value
+                break;
+
+            case 'checkbox':
+                value = target.checked
+                break
+        }
+        
+        setEmail(prevMail => ({ ...prevMail, [field]: value }))
+    }
     
       const handleSend = () => {
-        // Logic for sending email can be added here
-        alert(`Email sent to ${email.to} from ${email.from}`)
+        mailService.save(mail)
+        .then(mail => {
+            console.log('mail saved secsesfully', mail)
+            showSuccessMsg(`mail sent secsesfully`)
+
+        })
+        .catch(err => {
+            console.log('error at saving mail: ', err)
+        }).finally(()=>{
+            navigate(`/mail`)
+        })
       }
 
       const navigate = useNavigate()
@@ -37,7 +56,7 @@ export function MailCompose() {
               <button className="close-button" onClick={onNavToMail}>X</button>
               <div>
                 <label>From: </label>
-                <span className="from-input">{email.from}</span>
+                <span className="from-input">{mail.from}</span>
                  
               </div>
               <div>
@@ -45,7 +64,7 @@ export function MailCompose() {
                 <input
                   type="email"
                   name="to"
-                  value={email.to}
+                  value={mail.to}
                   onChange={handleChange}
                   
                 />
@@ -55,7 +74,7 @@ export function MailCompose() {
                 <input
                   type="text"
                   name="subject"
-                  value={email.subject}
+                  value={mail.subject}
                   onChange={handleChange}
                   
                 />
@@ -64,7 +83,7 @@ export function MailCompose() {
                 <label>Body: </label>
                 <textarea
                   name="body"
-                  value={email.body}
+                  value={mail.body}
                   onChange={handleChange}
                   rows="8"
                   
