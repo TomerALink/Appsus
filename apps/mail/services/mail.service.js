@@ -39,6 +39,30 @@ function query(filterBy = {}) {
             if (filterBy.unread) {
                 mails = mails.filter(mail => mail.isRead === false)
             }
+            if (filterBy.status) {
+                switch (filterBy.status) {
+                    case 'inbox':
+                        mails = mails.filter(mail => mail.to === loggedinUser.email && !mail.isDeleted)
+                        break
+        
+                    case 'starred':
+                        mails = mails.filter(mail => mail.isStared === true && !mail.isDeleted)
+                        break
+        
+                    case 'sent':
+                        mails = mails.filter(mail => mail.from === loggedinUser.email && !mail.isDeleted)
+                        break
+        
+                    case 'draft'://TBD
+                        filterBy = {}
+                        break
+        
+                    case 'trash':
+                        mails = mails.filter(mail => mail.isDeleted === true)
+                        break
+                }
+            }
+
             return mails
         })
 }
@@ -66,17 +90,24 @@ function save(mail) {
 // }
 
 function getDefaultFilter() {
-    // return { txt: '', price: '' }
-    return { txt: '' }
+    return { 
+        status: 'inbox', //sent/trash/draft', 
+        txt: '', // no need to support complex text search
+        
+        //isRead: true,   // (optional property, if missing: show all) 
+        //isStared: true, // (optional property, if missing: show all) 
+        //lables: ['important', 'romantic'] // has any of the labels //TODO
+        } 
+ 
 }
 
-function getEmptyMail(id, createdAt = new Date, subject = '', body = '', isRead = false, isStared = false, sentAt = new Date, removedAt = new Date, from = '', to = '') {
-    return { id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to }
+function getEmptyMail(id, createdAt = new Date, subject = '', body = '', isRead = false, isStared = false, isDeleted= false, sentAt = new Date, removedAt = new Date, from = '', to = '') {
+    return { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to }
 }
 
 function _createMail(newMail) {
-    const { id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to } = newMail
-    const mail = getEmptyMail(id, createdAt, subject, body, isRead, isStared, sentAt, removedAt, from, to)
+    const { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to } = newMail
+    const mail = getEmptyMail(id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to)
     console.log(mail)
     if (!id) mail.id = makeId()
 
@@ -118,9 +149,12 @@ function _createMails() {
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
+    const status = 'inbox'
+
     // const price = searchParams.get('price') || ''
     return {
         txt,
+        status
         // price
     }
 }

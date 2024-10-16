@@ -17,21 +17,3 @@
     
  }
 
- .side-menu ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .side-menu li {
-    margin-bottom: 10px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    padding: .5em;
-  }
-
-  .side-menu li:hover {
-    background-color: aqua;
-    border-radius: 1.25em;
-  }

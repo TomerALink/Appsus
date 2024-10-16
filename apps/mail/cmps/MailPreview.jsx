@@ -12,12 +12,14 @@ export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
     const { subject, body, isRead, isStared, sentAt, from } = mail
 
     const isReadClass = isRead ? 'read' : 'unread'
+    const envelope = isRead ? 'fa-solid fa-envelope-open' : 'fa-solid fa-envelope'
+    
     return (
         <div className={`mail-preview ${isReadClass}`}>
             <span
                 className={isStared ? "star filled" : "star"}
                 onClick={(e) => {
-                    console.log(isStared)
+                    
                     e.stopPropagation()
                     onStaredMail(mail.id)
                 }}
@@ -32,8 +34,9 @@ export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
             <span>{subject} </span>
             <span>{body} </span>
             <span>{utilService.epochToDate(sentAt)} </span>
+
             <div className="buttons" >
-                <a className="fa-solid fa-envelope-open" onClick={(e) => {
+                <a className={envelope} onClick={(e) => {
                     e.stopPropagation()
                     onReadMail(mail.id)
                 }}>
