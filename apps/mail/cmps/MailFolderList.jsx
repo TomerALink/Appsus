@@ -5,8 +5,6 @@ export function MailFolderList({ activeFilter, mails, onSetFilter }) {
 
 
     function calculateSummary() {
-        const [activeFilter, setActiveFilter] = useState('');
-
     
         return mails.reduce(function (acc, email) {
             if (email.to === mailService.loggedinUser.email && !email.isDeleted) {

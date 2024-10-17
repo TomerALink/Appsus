@@ -5,25 +5,28 @@ import { mailService } from "../services/mail.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
 
-const { useState, useEffect, useRef } = React
-const { Link, useSearchParams } = ReactRouterDOM
+const { useState, useEffect } = React
+const { useSearchParams } = ReactRouterDOM
 
 export function MailIndex() {
 
 
-    const [mails, setMails] = useState(null)
-    const [unfilterd, setUnfilterd] = useState(null)
+    const [mails, setMails] = useState([])
+    const [unfilterd, setUnfilterd] = useState([])
     const [searchParams, setSearchParams] = useSearchParams()
-    // setSearchParams()
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
-    const [isComposeVisible, setIsComposeVisible] = useState(false);
+    const [isComposeVisible, setIsComposeVisible] = useState(false)
 
 
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
-        console.log(filterBy)
+        // console.log(filterBy)
         loadMails()
     }, [filterBy])
+
+    useEffect(() => {
+        setUnfilterd(mails)
+    }, [mails])
 
     // function onSetFilter(){
 
@@ -31,7 +34,7 @@ export function MailIndex() {
 
 
     function toggleCompose() {
-        setIsComposeVisible(!isComposeVisible)
+        setIsComposeVisible(prevComposeVisible => !prevComposeVisible)
     }
 
     function onSendMail(mail) {
@@ -52,25 +55,20 @@ export function MailIndex() {
             .catch(error => {
                 console.error("Failed to save mail:", error)
             })
-            .finally(
+            .finally(() => {
                 toggleCompose()
+            }
             )
     }
 
     function loadMails() {
+        console.log("loading")
         mailService.query(filterBy)
             .then(setMails)
             .catch(err => {
                 console.log('err:', err)
             })
 
-            mailService.query()
-            .then(setUnfilterd).then
-            (console.log)
-            .catch(err => {
-                console.log('err:', err)
-            })
-            // const Unfiltered = mailService.query()
     }
 
     // function onRemoveMail(mailId) {//TODO use for delete
@@ -104,14 +102,18 @@ export function MailIndex() {
         const updatedMails = mails.map(mail => {
 
             if (mail.id === mailId) {
-                mail.isDeleted = true
-
+                return { ...mail, isDeleted: !mail.isDeleted }
             }
             return mail
         })
 
         mailService.save(updatedMails.find(mail => mail.id === mailId))
-        setMails(updatedMails)
+            .then(() => {
+                setMails(updatedMails)
+            })
+            .catch(err => {
+                console.log('Problem saving mail', err)
+            })
 
     }
 
@@ -121,37 +123,42 @@ export function MailIndex() {
         const updatedMails = mails.map(mail => {
 
             if (mail.id === mailId) {
-                mail.isRead = !mail.isRead
-
-            }
-            return mail
-        })
-
-        mailService.save(updatedMails.find(mail => mail.id === mailId))
-        setMails(updatedMails)
-
-    }
-
-    function onStaredMail(mailId) {
-
-        const updatedMails = mails.map(mail => {
-
-            if (mail.id === mailId) {
-                mail.isStared = !mail.isStared
-
+                return { ...mail, isRead: !mail.isRead }
             }
             return mail
         })
 
         mailService.save(updatedMails.find(mail => mail.id === mailId))
             .then(() => {
-                console.log(updatedMails)
                 setMails(updatedMails)
+            })
+            .catch(err => {
+                console.log('Problem saving mail', err)
+            })
+    }
+
+
+    function onStaredMail(mailId) {
+
+        const updatedMails = mails.map(mail => {
+
+            if (mail.id === mailId) {
+                return { ...mail, isStared: !mail.isStared }
+            }
+            return mail
+        })
+
+        mailService.save(updatedMails.find(mail => mail.id === mailId))
+            .then(() => {
+                setMails(updatedMails)
+            })
+            .catch(err => {
+                console.log('Problem saving mail', err)
             })
 
     }
 
-    
+
     if (!mails) return <div>Loading...</div>
     return (
 
@@ -168,17 +175,21 @@ export function MailIndex() {
                 <MailFolderList activeFilter={filterBy.status} mails={unfilterd} onSetFilter={onSetFilter} />
 
                 <main>
-                {/* {if (!unfilterd) return <div>Loading...</div>} */}
-                    <MailList 
-                        
-                        toggleCompose={toggleCompose} 
-                        isComposeVisible={isComposeVisible} 
-                        onSendMail={onSendMail} 
-                        onRemoveMail={onRemoveMail} 
-                        onReadMail={onReadMail} 
-                        onStaredMail={onStaredMail} 
-                        mails={mails} 
-                    />
+                    {mails.length > 0 ? (
+                        <MailList
+
+                            toggleCompose={toggleCompose}
+                            isComposeVisible={isComposeVisible}
+                            onSendMail={onSendMail}
+                            onRemoveMail={onRemoveMail}
+                            onReadMail={onReadMail}
+                            onStaredMail={onStaredMail}
+                            mails={mails}
+                        />
+
+                    ) : (
+                        <div>Loading...</div>
+                    )}
 
                 </main>
             </div>
