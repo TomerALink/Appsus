@@ -17,23 +17,23 @@ export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
     return (
         <div className={`mail-preview ${isReadClass}`}>
             <span
-                className={isStared ? "star filled" : "star"}
+                className={isStared ? "fa-solid fa-star star filled" : "fa-regular fa-star star"}
                 onClick={(e) => {
                     
                     e.stopPropagation()
                     onStaredMail(mail.id)
                 }}
 
-                style={{ cursor: "pointer", fontSize: "2rem" }}
+                style={{ cursor: "pointer", fontSize: "1.5rem" }}
                 
             >
-                ★
+
             </span>
 
             <span>{from} </span>
             <span>{subject} </span>
             <span>{body} </span>
-            <span>{utilService.epochToDate(sentAt)} </span>
+            <span className="send-at">{utilService.epochToDate(sentAt)} </span>
 
             <div className="buttons" >
                 <a className={envelope} onClick={(e) => {

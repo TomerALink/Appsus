@@ -2,13 +2,10 @@
  .aside-main {
     display: grid;
     grid-template-columns: 1fr 5fr;
+    background-color: var(--blue-color-01);
  }
 
- .side-menu {
-    background-color: #f1f1f1;
-  padding: 20px;
-  font-family: Arial, Helvetica, sans-serif;
- }
+
  .aside-mail aside {
     display: grid;
     grid-template-rows: auto;
@@ -17,3 +14,9 @@
     
  }
 
+ .mail-index .main-container {
+   border-radius: 1.25em;
+   background-color: var(--mono-color-01);
+ }
+
+ 

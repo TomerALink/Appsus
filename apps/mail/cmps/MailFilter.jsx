@@ -31,23 +31,17 @@ export function MailFilter({ filterBy, onSetFilter }) {
     const { txt } = mailFilterBy// TODO add more
     return (
         <section className="mail-filter">
-            <h2>Filter Our Mails</h2>
-            <form>
-                <label htmlFor="txt">Seaech mail</label>
-                <input onChange={handleChange} value={txt} type="text" name="txt" id="txt" />
 
+            <form>                
+                <div className="search fa-solid fa-magnifying-glass">
+                <input  onChange={handleChange} placeholder='Search'  value={txt} type="text" name="txt" id="txt" />
+                </div>
 
                 <label>
                     <input type="checkbox" value={false} onChange={handleChange} name="unread" id="unread"/>
                     {"Unread emails"}
                 </label>
 
-                <label>
-                    <input type="checkbox" value={false} onChange={handleChange} name="stared" id="stared"/>
-                    {"Stared emails"}
-                </label>
-
-                <button>Submit</button>
             </form>
         </section>
     )

@@ -1,12 +1,12 @@
-const { useState, useEffect } = React
 import { mailService } from "../services/mail.service.js"
 
-export function MailFolderList({ activeFilter, mails, onSetFilter }) {
+export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
 
 
     function calculateSummary() {
     
-        return mails.reduce(function (acc, email) {
+        console.log(unfilterd)
+        return unfilterd.reduce(function (acc, email) {
             if (email.to === mailService.loggedinUser.email && !email.isDeleted) {
                 acc.inbox++;
                 if (!email.isRead) {

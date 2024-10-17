@@ -132,29 +132,13 @@ function _createMails() {
 }
 
 
-// function _setNextPrevMailId(mail) {
-//     return query().then((mails) => {
-//         const mailIdx = mails.findIndex((currmail) => currmail.id === mail.id)
-//         const nextMail = mails[mailIdx + 1] ? mails[mailIdx + 1] : mails[0]
-//         const prevMail = mails[mailIdx - 1] ? mails[mailIdx - 1] : mails[mails.length - 1]
-//         mail.nextMailId = nextMail.id
-//         mail.prevMailId = prevMail.id
-//         return mail
-//     })
-// }
-
-
-
-
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
-    const status = 'inbox'
+    const status = searchParams.get('status')  || ''//'inbox'
 
-    // const price = searchParams.get('price') || ''
     return {
         txt,
         status
-        // price
     }
 }

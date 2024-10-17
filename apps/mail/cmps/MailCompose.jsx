@@ -3,7 +3,7 @@ import { mailService } from "../services/mail.service.js"
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouterDOM
 
-export function MailCompose({onSendMail, toggleCompose}) {
+export function MailCompose({ onSendMail, toggleCompose }) {
 
   const [mail, setMail] = useState({ ...mailService.getEmptyMail(), ...{ from: mailService.loggedinUser.email } })
 
@@ -50,14 +50,16 @@ export function MailCompose({onSendMail, toggleCompose}) {
   return (
     (
       <div className="mail-compose">
-        <h2>New Message</h2>
+        <h2 className="new-message">
+          New Message
+        </h2>
         <button className="close-button" onClick={toggleCompose}>X</button>
-        <div>
+        <div className="input from-input">
           <label>From: </label>
           <span className="from-input">{mail.from}</span>
 
         </div>
-        <div>
+        <div className="input">
           <label>To: </label>
           <input
             type="email"
@@ -67,7 +69,7 @@ export function MailCompose({onSendMail, toggleCompose}) {
 
           />
         </div>
-        <div>
+        <div className="input">
           <label>Subject: </label>
           <input
             type="text"
@@ -77,8 +79,7 @@ export function MailCompose({onSendMail, toggleCompose}) {
 
           />
         </div>
-        <div>
-          <label>Body: </label>
+        <div className="input body-input">
           <textarea
             name="body"
             value={mail.body}
