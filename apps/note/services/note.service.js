@@ -58,7 +58,7 @@ function save(note) {
 // }
 
 
-function getEmptyNote(id, createdAt = new Date(), type = '', isPinned = false, style = { backgroundColor: '#00d' }, info = { txt: 'Fullstack Me Baby!' }) {
+function getEmptyNote(id, createdAt = new Date(), type = 'NoteTxt', isPinned = false, style = { backgroundColor: '#00d' }, info = { txt: '' }) {
     return { id, createdAt, type, isPinned, style, info }
 }
 function _createNotes() {
