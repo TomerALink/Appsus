@@ -18,6 +18,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    
 }
 
 
@@ -27,6 +28,7 @@
 .mail-compose input, .mail-compose textarea{
   flex: 1;
   padding: .5em;
+  font-size: 1.3em;
 }
 
 .mail-compose  {

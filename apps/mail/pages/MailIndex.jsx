@@ -16,13 +16,14 @@ export function MailIndex() {
     const [mails, setMails] = useState([])
     const [unfilterd, setUnfilterd] = useState(mails)
     const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    const [filterBy, setFilterBy] = useState(mailService.getValuesFromSearchParams(searchParams))
     const [isComposeVisible, setIsComposeVisible] = useState(false)
+    const [mailFromNote, setMailFromNote] = useState(mailService.getValuesFromSearchParams(searchParams))
 
 
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
-
+        if(mailFromNote.subject || mailFromNote.body) setIsComposeVisible(true)
         loadMails()
     }, [filterBy])
 
@@ -61,39 +62,8 @@ export function MailIndex() {
         })
    }
 
-    function onSendMailFromNote(subject = 'test subject', body = 'test body') { // TODO for Rotem
-
-        // console.log(subject,body)
-        const mail = ({ ...mailService.getEmptyMail(), ...{ from: mailService.loggedinUser.email,
-            subject,
-            body,
-         } })
-        
-        
-        _sendMail(mail)
-        
-    }
-
-    // const body_tst = 
-    // <h1>About cars and us...</h1>
-    //         <p>
-    //             Lorem ipsum dolor sit amet consectetur,
-    //             adipisicing elit. Optio dolore sapiente,
-    //             iste animi corporis nisi atque tempora assumenda
-    //             dolores. Nobis nam dolorem rerum illo facilis nemo
-    //             sit voluptatibus laboriosam necessitatibus!
-    //         </p>
-    //         <p>
-    //             Lorem ipsum dolor sit amet consectetur,
-    //             adipisicing elit. Optio dolore sapiente,
-    //             iste animi corporis nisi atque tempora assumenda
-    //             dolores. Nobis nam dolorem rerum illo facilis nemo
-    //             sit voluptatibus laboriosam necessitatibus!
-    //         </p>
-  
 
     function loadMails() {
-        // console.log("loading")
         mailService.query(filterBy)
             .then(setMails)
             .catch(err => {
@@ -115,8 +85,6 @@ export function MailIndex() {
             console.log('No mails to delete')
             return
         }
-
-        // console.log('Mails to delete:', mailsToDelete.map(mail => mail.id))
 
         const deletePromises = mailsToDelete.map(mail => {
             return mailService.remove(mail.id)
@@ -219,8 +187,6 @@ export function MailIndex() {
                     <img src="./assets/img/logo.png" className="mail-logo" />
                     <nav>
                         <button onClick={toggleCompose} className="compos-button"><i className="fa-solid fa-pencil"></i>Compos</button>
-                        <button onClick={() => onSendMailFromNote('test titleeee', '<h1 style="color:red; font-size:35px">test</h1><ul style="list-style-type: disc;"><li>jhgjh</li><li>jhgjhg</li></ul>')} className="compos-button"><i className="fa-solid fa-pencil"></i>Note</button>
-
                     </nav>
                 </div>
 

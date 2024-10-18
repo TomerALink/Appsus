@@ -18,8 +18,7 @@ export const mailService = {
     save,
     getEmptyMail,
     getDefaultFilter,
-    // add,
-    getFilterFromSearchParams,
+    getValuesFromSearchParams,
     loggedinUser
 }
 
@@ -85,18 +84,11 @@ function save(mail) {
     }
 }
 
-// function add(mail) {
-//     return storageService.post(MAIL_KEY, mail)
-// }
 
 function getDefaultFilter() {
     return { 
-        status: 'inbox', //sent/trash/draft', 
-        txt: '', // no need to support complex text search
-        
-        //isRead: true,   // (optional property, if missing: show all) 
-        //isStared: true, // (optional property, if missing: show all) 
-        //lables: ['important', 'romantic'] // has any of the labels //TODO
+        status: 'inbox', 
+        txt: '', 
         } 
  
 }
@@ -128,17 +120,20 @@ function _createMails() {
 
         saveToStorage(MAIL_KEY, mails)
     }
-    // console.log(mails)
 }
 
 
 
-function getFilterFromSearchParams(searchParams) {
+function getValuesFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
-    const status = searchParams.get('status')  || ''//'inbox'
+    const status = searchParams.get('status')  || ''
+    const subject = searchParams.get('subject')  || ''
+    const body = searchParams.get('body')  || ''
 
     return {
         txt,
-        status
+        status,
+        subject,
+        body
     }
 }

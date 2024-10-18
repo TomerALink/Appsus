@@ -68,7 +68,7 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
                     </li>
                 )}
             </ul>
-            {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail} />}
+            {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail}/>}
         </React.Fragment>
     )
 }
