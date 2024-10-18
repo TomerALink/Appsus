@@ -2,10 +2,21 @@
 
     --button: #2165ca;
     --main-bg-color: lightblue;
+    
 
     --mono-color-01: white;
     --mono-color-02: lightgray;
-    --mono-color-03: rgb(94, 90, 90);
-    --mono-color-04:  black;
+    --mono-color-03: rgb(98, 94, 94);
+    --mono-color-04: black;
+    --mono-color-05: rgba(0, 0, 0, 0.1);
 
+
+
+    /* blue  palette*/
+
+    --blue-color-01: #f1f6f9; /*for mail manue background-color */
+    --blue-color-02: #e3ebf4; /*for serch background-color */
+    --blue-color-03: #c2e7ff; /*for compose btn */
+    --blue-color-04: #c8daf1; /*for active manue btn */
+    --blue-color-05: #ebeff8; /*for read mail background-color*/
 }

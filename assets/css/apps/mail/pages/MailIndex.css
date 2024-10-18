@@ -1,1 +1,22 @@
  /* mail index  */
+ .aside-main {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    background-color: var(--blue-color-01);
+ }
+
+
+ .aside-mail aside {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 1em;
+    height: 100vh;
+    
+ }
+
+ .mail-index .main-container {
+   border-radius: 1.25em;
+   background-color: var(--mono-color-01);
+ }
+
+ 

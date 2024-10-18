@@ -1,0 +1,64 @@
+.inbox-counter {
+  position: relative;
+}
+
+.inbox-counter i::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -1em;
+  right: -1em;
+  font-size: .6em;
+  border-radius: 50%;
+  background-color: rgb(255, 0, 0);
+  color: #fff;
+  padding: .2em;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+
+}
+
+.side-menu {
+  background-color: var(--blue-color-01);
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.side-menu i {
+  font-size: 1.5em;
+  padding-left: 1em;
+
+}
+
+.side-menu ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.side-menu li {
+  margin-bottom: 10px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  gap: 1em;
+  padding: .5em;
+  cursor: pointer;
+  justify-content: space-evenly;
+
+  margin: .75em 1em;
+}
+
+.side-menu li :nth-child(2) {
+  padding-left: 1em;
+}
+
+.side-menu li:hover {
+  background-color: var(--blue-color-04);
+  border-radius: 1.25em;
+}
+
+.side-menu li.active {
+  background-color: var(--blue-color-04);
+  border-radius: 1.25em;
+  font-weight: bold;
+}

@@ -1,0 +1,50 @@
+.compose-filter-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    padding: .5em;
+    background-color: var(--blue-color-01);
+}
+
+
+.mail-logo {
+    /* transform: rotate(180deg); */
+    width: 4em;
+    height: auto;
+    padding: 0 1.4em;
+}
+
+.logo-compose {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.compos-button {
+    background-color: var(--blue-color-03);
+    font-size: 1em;
+    padding: 1em;
+    border-radius: 1em;
+    border: none;
+    cursor: pointer;
+}
+
+.compos-button i {
+    padding-right: 1em;
+}
+
+.mail-filter .search {
+
+    border-radius: 1.25em;
+    border: solid 1px none;
+    padding-left: 1em;
+    background-color: var(--blue-color-02);
+    font-size: 1.5em;
+
+}
+
+.mail-filter input {
+    border: none;
+    padding: .5em 1em;
+    background-color: transparent;
+    font-size: 1em;
+}
