@@ -79,7 +79,7 @@ function DynamicCmp(props) {
             return <NoteImg {...props} />
         case 'NoteVideo':
             return <NoteVideo {...props} />
-        case 'NoteTodo':
+        case 'NoteTodos':
             return <NoteTodos {...props} />
     }
 }
