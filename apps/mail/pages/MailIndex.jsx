@@ -28,6 +28,22 @@ export function MailIndex() {
     }, [filterBy])
 
 
+    // useEffect(() => {
+    //     mailService.query(filterBy)
+    //     .then(setMails)
+    //     .catch(err => {
+    //         console.log('err:', err)
+    //     })
+    // }, [filterBy,mails])
+
+
+    useEffect(() => {
+        mailService.query()
+        .then(setUnfilterd)
+        .catch(err => {
+            console.log('err:', err)
+        })
+    }, [mails])
 
 
 
@@ -43,24 +59,23 @@ export function MailIndex() {
            
     }
 
-   function _sendMail(mail){
-    const updatedMail = { ...mail, sentAt:  Math.floor(Date.now()) }
-    mailService.save(updatedMail)
-        .then((savedMail) => {
-            setMails(prevMails => {
-                const mailExists = prevMails.some(m => m.id === mail.id)
-
-                if (mailExists) {
-                    return prevMails.map(m => m.id === mail.id ? updatedMail : m)
-                } else {
-                    return [...prevMails, savedMail]
-                }
+    function _sendMail(mail) {
+        const updatedMail = { ...mail, sentAt: Math.floor(Date.now()) }; // Consider using seconds if needed
+    
+        mailService.save(updatedMail)
+            .then((savedMail) => {
+                // After saving, query for the updated mails
+                return mailService.query(filterBy);
             })
-        })
-        .catch(error => {
-            console.error("Failed to save mail:", error)
-        })
-   }
+            .then((mails) => {
+                // Set the mails to the state after querying
+                setMails(mails);
+            })
+            .catch(error => {
+                console.error("Failed to save mail:", error);
+                // Optionally handle error (e.g., show a notification)
+            });
+    }
 
 
     function loadMails() {
@@ -70,43 +85,40 @@ export function MailIndex() {
                 console.log('err:', err)
             })
 
-        mailService.query()
-            .then(setUnfilterd)
-            .catch(err => {
-                console.log('err:', err)
-            })
+       
     }
 
     function onDelete() {
-
-        const mailsToDelete = mails.filter(mail => mail.isDeleted)
-
-        if (!mailsToDelete.length) {
-            console.log('No mails to delete')
-            return
+        
+    
+        // Filter mails to delete
+        const deletedMails = mails.filter(mail => mail.isDeleted);
+    
+        if (deletedMails.length === 0) {
+            console.log("No mails to delete.");
+            return; // Exit if there are no mails to delete
         }
-
-        const deletePromises = mailsToDelete.map(mail => {
-            return mailService.remove(mail.id)
-                .then(() => {
-                    console.log(`Mail with id ${mail.id} was removed`)
-                })
-                .catch(err => {
-                    console.log('Problem removing mail', err)
-                })
-        })
-
-        Promise.all(deletePromises)
-            .then(() => {
-                return mailService.query(filterBy)
-            })
-            .then((updatedMails) => {
-                setMails(updatedMails)
-            })
-            .catch(err => {
-                console.log('Problem fetching updated mails', err)
-            })
+    
+        mailService.removeAll(deletedMails)
+        // // Create an array of promises for deleting each mail
+        // const deletePromises = deletedMails.map(mail => mailService.remove(mail.id));
+    
+        // // Use Promise.all to wait for all deletions to complete
+        // Promise.all(deletePromises)
+        //     .then(() => {
+        //         // After deletion, we can query the mails to refresh the state
+        //         return mailService.query(filterBy);
+        //     })
+        //     .then((updatedMails) => {
+        //         // Set the mails to the state after querying
+        //         setMails(updatedMails);
+        //     })
+        //     .catch(error => {
+        //         console.error("Failed to delete some mails:", error);
+        //         // Handle any errors that occurred during deletion
+        //     });
     }
+    
 
 
     function onSetFilter(filterBy) {

@@ -15,6 +15,7 @@ export const mailService = {
     query,
     get,
     remove,
+    removeAll,
     save,
     getEmptyMail,
     getDefaultFilter,
@@ -66,12 +67,26 @@ function query(filterBy = {}) {
         })
 }
 
+function removeAll(mails){
+    const deletePromises = mails.map(mail => remove(mail.id))
+    Promise.all(deletePromises)
+    .then(() => {
+        // After deletion, you can return a success message or value
+        return "deleted";
+    })
+    .catch(error => {
+        console.error("Failed to delete some mails:", error);
+        // Handle errors appropriately, e.g., returning an error message
+        return "error";
+    });
+}
 function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
 }
 
 function remove(mailId) {
     // return Promise.reject('Oh No!')
+    console.log(mailId)
     return storageService.remove(MAIL_KEY, mailId)
 }
 
@@ -93,7 +108,7 @@ function getDefaultFilter() {
  
 }
 
-function getEmptyMail(id, createdAt = Date.now(), subject = '', body = '', isRead = false, isStared = false, isDeleted= false, sentAt = Date.now(), removedAt =  Date.now(), from = '', to = '') {
+function getEmptyMail(id, createdAt = Date.now(), subject = '', body = '', isRead = false, isStared = false, isDeleted=false, sentAt = Date.now(), removedAt =  Date.now(), from = '', to = '') {
     return { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to }
 }
 
