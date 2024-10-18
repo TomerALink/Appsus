@@ -36,6 +36,14 @@ export function MailIndex() {
     //     })
     // }, [filterBy,mails])
 
+    useEffect(() => {
+        mailService.query(filterBy)
+        .then(setMails)
+        .catch(err => {
+            console.log('err:', err)
+        })
+    }, [setMails])
+
 
     useEffect(() => {
         mailService.query()
