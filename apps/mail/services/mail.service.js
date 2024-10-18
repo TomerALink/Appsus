@@ -101,14 +101,14 @@ function getDefaultFilter() {
  
 }
 
-function getEmptyMail(id, createdAt = new Date, subject = '', body = '', isRead = false, isStared = false, isDeleted= false, sentAt = new Date, removedAt = new Date, from = '', to = '') {
+function getEmptyMail(id, createdAt = Date.now(), subject = '', body = '', isRead = false, isStared = false, isDeleted= false, sentAt = Date.now(), removedAt =  Date.now(), from = '', to = '') {
     return { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to }
 }
 
 function _createMail(newMail) {
     const { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to } = newMail
     const mail = getEmptyMail(id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to)
-    console.log(mail)
+    
     if (!id) mail.id = makeId()
 
     return mail
@@ -128,7 +128,7 @@ function _createMails() {
 
         saveToStorage(MAIL_KEY, mails)
     }
-    console.log(mails)
+    // console.log(mails)
 }
 
 

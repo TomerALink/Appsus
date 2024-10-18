@@ -3,7 +3,13 @@ import { utilService } from "../../../services/util.service.js"
 
 export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
 
-    
+    function stripHTML(htmlContent) {
+        const parser = new DOMParser()
+        const doc = parser.parseFromString(htmlContent, 'text/html')
+        return doc.body.textContent || ""
+      }
+      
+      
     //TODO handel stars... add onclick for nav to MailDetails
     //TODO Renders the subject (with text size limit) 
     //TODO  Gives visual indication for read/unread   
@@ -30,9 +36,9 @@ export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
 
             </span>
 
-            <span>{from} </span>
-            <span>{subject} </span>
-            <span>{body} </span>
+            <span className="mail-from">{from} </span>
+            <span className="mail-subject">{subject} </span>
+            <span className="mail-body">{ stripHTML(body)} </span>
             <span className="send-at">{utilService.epochToDate(sentAt)} </span>
 
             <div className="buttons" >

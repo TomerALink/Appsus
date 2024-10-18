@@ -5,9 +5,9 @@ const { useParams, Link, useNavigate } = ReactRouterDOM
 
 const { useEffect, useState } = React
 
-export function MailDetails() {
+export function MailDetails({ mailId }) {
   const [mail, setMail] = useState(null)
-  const { mailId } = useParams()
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -31,18 +31,37 @@ export function MailDetails() {
     navigate("/mail")
   }
 
+  function onSaveMailAsNote() {
+
+  }
+
+  function getSenderEmail(from) {
+    return from.split("@")[0]
+  }
+
   return (
     <section className="mail-details">
-      <div>
-        <a onClick={onBack} className="fa-solid fa-arrow-right" ></a>
-      </div>
-      <div>
-        <h1>{subject}</h1>
-        <div><span><h2>{from}</h2> </span> {utilService.epochToDate(sentAt)}<span /></div>
-        <div>{to}</div>
-        <p>{body}</p>
 
+      <div className="subject-buttons">
+        <h1>{subject}</h1>
+
+        <div className="mail-buttons">
+          <span><i className="fa-solid fa-expand"></i></span>
+          <span><i style={{ transform: "scaleX(-1)" }} className="fa-solid fa-share"></i></span>
+          <span onClick={onSaveMailAsNote} ><i className="fa-solid fa-paper-plane"></i></span>
+          <span><i className="fa-solid fa-trash"></i></span>
+        </div>
       </div>
+      <div>
+        <h2>{getSenderEmail(from)} <span> {`<${from}>`}</span></h2>
+      </div>
+      <section className="mail-body content">
+      <div
+      dangerouslySetInnerHTML={{ __html: body }}
+    />
+    
+            </section>
+          
 
     </section>
   )

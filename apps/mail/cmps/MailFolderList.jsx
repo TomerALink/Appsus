@@ -5,7 +5,7 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
 
     function calculateSummary() {
     
-        console.log(unfilterd)
+        
         return unfilterd.reduce(function (acc, email) {
             if (email.to === mailService.loggedinUser.email && !email.isDeleted) {
                 acc.inbox++;

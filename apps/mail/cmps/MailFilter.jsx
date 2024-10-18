@@ -10,7 +10,6 @@ export function MailFilter({ filterBy, onSetFilter }) {
     }, [mailFilterBy])
 
     function handleChange({ target }) {
-        console.log(target)
         const field = target.name
         let value = target.value
         // value += ','

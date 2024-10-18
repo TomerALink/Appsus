@@ -23,7 +23,6 @@ export function MailIndex() {
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
 
-        console.log('searchParams: ', searchParams)
         loadMails()
     }, [filterBy])
 
@@ -37,30 +36,64 @@ export function MailIndex() {
 
     function onSendMail(mail) {
 
-        const updatedMail = { ...mail, sentAt: new Date() }
-        mailService.save(updatedMail)
-            .then((savedMail) => {
-                setMails(prevMails => {
-                    const mailExists = prevMails.some(m => m.id === mail.id)
-
-                    if (mailExists) {
-                        return prevMails.map(m => m.id === mail.id ? updatedMail : m)
-                    } else {
-                        return [...prevMails, savedMail]
-                    }
-                })
-            })
-            .catch(error => {
-                console.error("Failed to save mail:", error)
-            })
-            .finally(() => {
+        _sendMail(mail)
+           
                 toggleCompose()
-            }
-            )
+           
     }
 
+   function _sendMail(mail){
+    const updatedMail = { ...mail, sentAt:  Math.floor(Date.now()) }
+    mailService.save(updatedMail)
+        .then((savedMail) => {
+            setMails(prevMails => {
+                const mailExists = prevMails.some(m => m.id === mail.id)
+
+                if (mailExists) {
+                    return prevMails.map(m => m.id === mail.id ? updatedMail : m)
+                } else {
+                    return [...prevMails, savedMail]
+                }
+            })
+        })
+        .catch(error => {
+            console.error("Failed to save mail:", error)
+        })
+   }
+
+    function onSendMailFromNote(subject = 'test subject', body = 'test body') { // TODO for Rotem
+
+        // console.log(subject,body)
+        const mail = ({ ...mailService.getEmptyMail(), ...{ from: mailService.loggedinUser.email,
+            subject,
+            body,
+         } })
+        
+        
+        _sendMail(mail)
+        
+    }
+
+    // const body_tst = 
+    // <h1>About cars and us...</h1>
+    //         <p>
+    //             Lorem ipsum dolor sit amet consectetur,
+    //             adipisicing elit. Optio dolore sapiente,
+    //             iste animi corporis nisi atque tempora assumenda
+    //             dolores. Nobis nam dolorem rerum illo facilis nemo
+    //             sit voluptatibus laboriosam necessitatibus!
+    //         </p>
+    //         <p>
+    //             Lorem ipsum dolor sit amet consectetur,
+    //             adipisicing elit. Optio dolore sapiente,
+    //             iste animi corporis nisi atque tempora assumenda
+    //             dolores. Nobis nam dolorem rerum illo facilis nemo
+    //             sit voluptatibus laboriosam necessitatibus!
+    //         </p>
+  
+
     function loadMails() {
-        console.log("loading")
+        // console.log("loading")
         mailService.query(filterBy)
             .then(setMails)
             .catch(err => {
@@ -83,7 +116,7 @@ export function MailIndex() {
             return
         }
 
-        console.log('Mails to delete:', mailsToDelete.map(mail => mail.id))
+        // console.log('Mails to delete:', mailsToDelete.map(mail => mail.id))
 
         const deletePromises = mailsToDelete.map(mail => {
             return mailService.remove(mail.id)
@@ -186,6 +219,8 @@ export function MailIndex() {
                     <img src="./assets/img/logo.png" className="mail-logo" />
                     <nav>
                         <button onClick={toggleCompose} className="compos-button"><i className="fa-solid fa-pencil"></i>Compos</button>
+                        <button onClick={() => onSendMailFromNote('test titleeee', '<h1 style="color:red; font-size:35px">test</h1><ul style="list-style-type: disc;"><li>jhgjh</li><li>jhgjhg</li></ul>')} className="compos-button"><i className="fa-solid fa-pencil"></i>Note</button>
+
                     </nav>
                 </div>
 
