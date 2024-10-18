@@ -13,8 +13,8 @@ export const noteService = {
     remove,
     save,
     getEmptyNote,
+    getContentFromSearchParams,
     // getDefaultFilter,
-    // getFilterFromSearchParams,
     // add,
 }
 
@@ -33,7 +33,7 @@ function query(filterBy = {}) {
 }
 
 function get(noteId) {
-    return storageService.get(NOTE_KEY, noteId).then(_setNextPrevNoteId)
+    return storageService.get(NOTE_KEY, noteId)
 }
 
 function remove(noteId) {
@@ -58,7 +58,7 @@ function save(note) {
 // }
 
 
-function getEmptyNote(id, createdAt = new Date(), type = '', isPinned = false, style = { backgroundColor: '#00d' }, info = {}) {
+function getEmptyNote(id, createdAt = Date.now(), type = '', isPinned = false, style = { backgroundColor: '#00d' }, info = {}) {
     return { id, createdAt, type, isPinned, style, info }
 }
 function _createNotes() {
@@ -84,4 +84,13 @@ function _createNote(newNote) {
     if (!id) note.id = makeId()
 
     return note
+}
+
+function getContentFromSearchParams(searchParams) {
+    const subject = searchParams.get('subject') || ''
+    const body = searchParams.get('body') || ''
+    return {
+        subject,
+        body
+    }
 }
