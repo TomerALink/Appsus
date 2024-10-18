@@ -15,6 +15,11 @@ export function NoteAdd({ renderList }) {
             newNote.style.backgroundColor = value
             setNote(newNote)
         }
+        // info-txt
+        if (field === 'txt') {
+            newNote.info.txt = value
+            setNote(newNote)
+        }
         //info-title
         if (field === 'title') {
             newNote.info.title = value
@@ -34,36 +39,34 @@ export function NoteAdd({ renderList }) {
         else setNote(prevCar => ({ ...prevCar, [field]: value }))
     }
 
-    function onSaveNote() {
+    function onSaveNote(ev) {
+        ev.preventDefault()
         const newNote = note
-        if (newNote.type === 'NoteTxt') {
-            newNote.info.txt = newNote.info.title
-            newNote.info.title = ''
-        }
         newNote.createAt = new Date()
 
         noteService.save(newNote)
             .then(newNote => {
-                setNote(noteService.getEmptyNote())
                 renderList()
+                setNote(noteService.getEmptyNote())
             })
             .catch(err => {
                 console.log('err: NoteAdd cannot operate onSaveNote', err)
             })
     }
-
+    // console.log('NoteAdd')
     const newTitle = note.info.title || ''
     return (
-        <section className="note-add">
-            <input value={newTitle} onChange={handleAdd} type="text" name="title" id="title" placeholder="Take a note" />
-            <button value={'NoteTxt'} className={note.type === 'NoteTxt' ? 'marked' : ''} onClick={handleAdd} name="type" >text</button>
-            <button value={'NoteImg'} className={note.type === 'NoteImg' ? 'marked' : ''} onClick={handleAdd} name="type" >image</button>
-            <button value={'NoteVideo'} className={note.type === 'NoteVideo' ? 'marked' : ''} onClick={handleAdd} name="type" >video</button>
-            <button value={'NoteTodos'} className={note.type === 'NoteTodos' ? 'marked' : ''} onClick={handleAdd} name="type" >todos</button>
-            <DynamicCmp note={note} handleChange={handleAdd} />
-            <button disabled={!note.title} onClick={onSaveNote}>save</button>
-
-        </section>
+        <form className="note-add" onSubmit={onSaveNote}>
+            <input disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} type="text" name="title" id="title" placeholder="Take a note" />
+            <button type='button' value={'NoteTxt'} className={note.type === 'NoteTxt' ? 'marked' : ''} onClick={handleAdd} name="type" >text</button>
+            <button type='button' value={'NoteImg'} className={note.type === 'NoteImg' ? 'marked' : ''} onClick={handleAdd} name="type" >image</button>
+            <button type='button' value={'NoteVideo'} className={note.type === 'NoteVideo' ? 'marked' : ''} onClick={handleAdd} name="type" >video</button>
+            <button type='button' value={'NoteTodos'} className={note.type === 'NoteTodos' ? 'marked' : ''} onClick={handleAdd} name="type" >todos</button>
+            <div className="note-content">
+                <DynamicCmp note={note} handleAdd={handleAdd} />
+            </div>
+            <button type='submit' disabled={!note.type} >save</button>
+        </form>
     )
 
 }

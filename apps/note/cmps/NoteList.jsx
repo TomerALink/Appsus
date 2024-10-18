@@ -10,7 +10,6 @@ export function NoteList({ notes, onRemoveNote }) {
                     <li key={note.id}>
                         <NotePreview note={note} />
                         <section>
-                            <button onClick={() => onPinNote(note.id)}>Pin</button>
                             <button onClick={() => onColorNote(note.id)}>Color</button>
                             <button onClick={() => onSendNote(note.id)}>Send</button>
                             <button ><Link to={`/note/edit/${note.id}`}>Edit</Link></button>

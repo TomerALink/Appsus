@@ -11,7 +11,7 @@ export function NoteIndex() {
 
     const [notes, setNotes] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
-    // const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    // const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
 
     useEffect(() => {
         // setSearchParams(getTruthyValues(filterBy))
@@ -20,7 +20,7 @@ export function NoteIndex() {
     }, [])
 
     function loadNotes() {
-        // mailService.query(filterBy)
+        // noteService.query(filterBy)
         noteService.query()
             .then(setNotes)
             .catch(err => {
