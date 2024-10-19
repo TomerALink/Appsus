@@ -51,7 +51,7 @@ export function NoteTodos({ note, handleAdd }) {
     const [todo, setTodo] = useState({ txt: '', doneAt: null })
 
     function handleList() {
-        console.log('1', todo)
+        console.log('handle 1', todo)
         if (note.info.todos) note.info.todos.push(todo)
         const target = {
             name: 'todos',
@@ -59,11 +59,11 @@ export function NoteTodos({ note, handleAdd }) {
         }
         handleAdd({ target })
         setTodo({ txt: '', doneAt: null })
-        console.log('2', note.info.todos) //
+        console.log('handle 2', note.info.todos) //
     }
 
     function onDoneTodo({ item, idx }) {
-        console.log('onDoneTodo Debug', item) //
+        console.log('Done 1', item, idx) //
         const curTodo = item
         curTodo.doneAt = curTodo.doneAt ? null : new Date()
         note.info.todos.splice(idx, 1, curTodo)
@@ -72,10 +72,11 @@ export function NoteTodos({ note, handleAdd }) {
     }
 
     function onRemoveTodo(idx) {
-        console.log('onRemoveTodo Debug', idx) //
+        console.log('Remove 1', idx) //
         note.info.todos.splice(idx, 1)
         const target = { name: 'todos', value: note.info.todos }
         handleAdd({ target })
+        console.log('Remove 2', note.info.todos) //
         // renderList()
     }
 
@@ -83,7 +84,7 @@ export function NoteTodos({ note, handleAdd }) {
 
 
 
-    console.log('3', note.info.todos) //
+    console.log('All', note.info.todos) //
     const todoTxt = todo.txt
     return (
         <Fragment>
@@ -91,30 +92,42 @@ export function NoteTodos({ note, handleAdd }) {
                 <input value={todoTxt} onChange={(ev) => setTodo(prevTodo => ({ ...prevTodo, txt: ev.target.value }))} type="text" name="todo" id="todo" placeholder="Enter list item" />
                 <button type="button" onClick={handleList}>Add</button>
             </div>
-            <TodoList onDoneTodo={onDoneTodo} onRemoveTodo={onRemoveTodo} todos={note.info.todos} />
-        </Fragment>
-    )
-}
-
-function TodoList(onDoneTodo, onRemoveTodo, todos) {
-    function onDoneTodoList(item, idx) {
-        onDoneTodo(item, idx)
-    }
-
-    function onRemoveTodoList(idx) {
-        onRemoveTodo(idx)
-    }
-    return (
-        <Fragment>
+            {/* <TodoList onDoneTodo={onDoneTodo} onRemoveTodo={onRemoveTodo} todos={note.info.todos} /> */}
             <ul className='todos-list'>
-                {todos && todos.map((item, idx) =>
-                    <li key={idx} {...item.doneAt ? 'done' : ''} >
-                        <span>{`${item.txt}`}</span>
-                        <button type='button' onClick={() => onDoneTodoList(item, idx)}>v</button>
-                        <button type='button' onClick={() => onRemoveTodoList(idx)}>x</button>
-                    </li>
-                )}
+                {note.info.todos && note.info.todos.map((item, idx) => {
+                    console.log('return', item, idx)
+                    return (
+                        <li key={idx} {...item.doneAt ? 'done' : ''} >
+                            <span>{`${item.txt}`}</span>
+                            <button type='button' onClick={() => onDoneTodo(item, idx)}>v</button>
+                            <button type='button' onClick={() => onRemoveTodo(idx)}>x</button>
+                        </li>
+                    )
+                })}
             </ul>
         </Fragment>
     )
 }
+
+// function TodoList(onDoneTodo, onRemoveTodo, todos) {
+//     function onDoneTodoList(item, idx) {
+//         onDoneTodo(item, idx)
+//     }
+
+//     function onRemoveTodoList(idx) {
+//         onRemoveTodo(idx)
+//     }
+//     return (
+//         <Fragment>
+//             <ul className='todos-list'>
+//                 {todos && todos.map((item, idx) =>
+//                     <li key={idx} {...item.doneAt ? 'done' : ''} >
+//                         <span>{`${item.txt}`}</span>
+//                         <button type='button' onClick={() => onDoneTodoList(item, idx)}>v</button>
+//                         <button type='button' onClick={() => onRemoveTodoList(idx)}>x</button>
+//                     </li>
+//                 )}
+//             </ul>
+//         </Fragment>
+//     )
+// }
