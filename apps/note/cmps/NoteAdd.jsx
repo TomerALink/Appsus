@@ -15,20 +15,27 @@ export function NoteAdd({ renderList, mailToNote }) {
 
         const field = target.name
         const value = target.value
+        console.log('1 target', field, value)
         // style
         if (field === 'style') {
             newNote.style.backgroundColor = value
+            console.log('1 style', note.style)
             setNote(newNote)
+            console.log('2 style', note.style)
         }
         // info-txt
         if (field === 'txt') {
             newNote.info.txt = value
+            console.log('1 txt', note.info.txt)
             setNote(newNote)
+            console.log('2 txt', note.info.txt)
         }
         //info-title
         if (field === 'title') {
             newNote.info.title = value
+            console.log('1 title', note.info.title)
             setNote(newNote)
+            console.log('2 title', note.info.title)
         }
         // info-url
         if (field === 'url') {
@@ -40,12 +47,37 @@ export function NoteAdd({ renderList, mailToNote }) {
             newNote.info.todos = value
             setNote(newNote)
         }
-        // type, isPinned
-        else setNote(prevNote => ({ ...prevNote, [field]: value }))
+        // type
+        if (field === 'type') {
+            // newNote.type = value
+            // setNote(newNote)
+            setNoteByType(value)
+        }
     }
 
-    function onColorNote() {
-
+    function setNoteByType(type) {
+        const newNote = note
+        switch (type) {
+            case 'NoteTxt':
+                newNote.type = type
+                const txt = newNote.info.title ? newNote.info.title : ''
+                newNote.info = { txt: txt }
+                setNote(newNote)
+                break
+            case 'NoteImg':
+                newNote.type = type
+                let title = newNote.info.title ? newNote.info.title : ''
+                const url = newNote.info.url ? newNote.info.url : ''
+                newNote.info = { title: title, url: url }
+                setNote(newNote)
+                break
+            case 'NoteTodos':
+                newNote.type = type
+                title = newNote.info.title ? newNote.info.title : ''
+                const todos = newNote.info.todos ? newNote.info.todos : []
+                newNote.info = { title: title, todos: todos }
+                setNote(newNote)
+        }
     }
 
     function onSaveNote(ev) {
@@ -67,16 +99,24 @@ export function NoteAdd({ renderList, mailToNote }) {
     }
 
     const newTitle = note.info.title || ''
+    // const newColor = note.style.backgroundColor || "#ffffff"
+    console.log('1 All', newTitle)
+    console.log('2 All', note.info.txt)
     return (
         <form className="note-select-type-title" onSubmit={onSaveNote}>
-            <input disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} type="text" name="title" id="title" placeholder="Take a note" />
+            <input type='text' disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} name="title" id="title" placeholder="Take a note" />
             <button type='button' value={'NoteTxt'} className={note.type === 'NoteTxt' ? 'marked' : ''} onClick={handleAdd} name="type" >text</button>
             <button type='button' value={'NoteImg'} className={note.type === 'NoteImg' ? 'marked' : ''} onClick={handleAdd} name="type" >image</button>
             <button type='button' value={'NoteTodos'} className={note.type === 'NoteTodos' ? 'marked' : ''} onClick={handleAdd} name="type" >todos</button>
             <div className="note-select-content">
                 <DynamicCmp note={note} handleAdd={handleAdd} />
             </div>
-            <button type='button' onClick={() => onColorNote(note.title.backgroundColor)}>color</button>
+            {/* <input type='color' disabled={!note.type} value={newColor} onChange={handleAdd} name="style" id="style" list="colors" />
+            <datalist id="colors">
+                <option value="#cccccc">Grey</option>
+                <option value="#ffffff">White</option>
+                <option value="#6699cc">Blue</option>
+            </datalist> */}
             <button type='submit' disabled={!note.type} >save</button>
         </form>
     )

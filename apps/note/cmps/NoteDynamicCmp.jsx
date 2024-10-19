@@ -5,14 +5,14 @@ export function NoteTxt({ note, handleAdd }) {
     const numRow = 4
     const numCol = 50
 
-    useEffect(() => {
-        if (note.info.title || '') {
-            let target = { name: 'txt', value: note.info.title || '' }
-            handleAdd({ target })
-            target = { name: 'title', value: '' }
-            handleAdd({ target })
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (note.info.title || '') {
+    //         let target = { name: 'txt', value: note.info.title || '' }
+    //         handleAdd({ target })
+    //         target = { name: 'title', value: '' }
+    //         handleAdd({ target })
+    //     }
+    // }, [])
 
     const newTxt = note.info.txt
 
@@ -39,11 +39,8 @@ export function NoteTodos({ note, handleAdd }) {
 
     function handleList() {
         //console.log('handle 1', todo)
-        if (note.info.todos) note.info.todos.push(todo)
-        const target = {
-            name: 'todos',
-            value: note.info.todos ? note.info.todos : [todo]
-        }
+        note.info.todos.push(todo)
+        const target = { name: 'todos', value: note.info.todos }
         handleAdd({ target })
         setTodo({ txt: '', doneAt: null })
         //console.log('handle 2', note.info.todos) //
@@ -80,7 +77,7 @@ export function NoteTodos({ note, handleAdd }) {
             </div>
             {/* <TodoList onDoneTodo={onDoneTodo} onRemoveTodo={onRemoveTodo} todos={note.info.todos} /> */}
             <ul className='todos-list'>
-                {note.info.todos && note.info.todos.map((item, idx) => {
+                {(note.info.todos.length > 0) && note.info.todos.map((item, idx) => {
                     // console.log('return', item.doneAt ? 'done' : '')
                     return (
                         <li key={idx} className={item.doneAt ? 'done' : ''} >
