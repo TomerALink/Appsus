@@ -14,8 +14,6 @@ export const noteService = {
     save,
     getEmptyNote,
     getContentFromSearchParams,
-    // getDefaultFilter,
-    // add,
 }
 
 function query(filterBy = {}) {
@@ -37,7 +35,6 @@ function get(noteId) {
 }
 
 function remove(noteId) {
-    // return Promise.reject('Oh No!')
     return storageService.remove(NOTE_KEY, noteId)
 }
 
@@ -49,17 +46,8 @@ function save(note) {
     }
 }
 
-// function add(note) {
-//     return storageService.post(NOTE_KEY, note)
-// }
-
-// function getDefaultFilter() {
-//     return { txt: '', minSpeed: '' }
-// }
-
-
-function getEmptyNote(id, createdAt = Date.now(), type = '', isPinned = false, style = { backgroundColor: '#00d' }, info = {}) {
-    return { id, createdAt, type, isPinned, style, info }
+function getEmptyNote(id, createdAt = Date.now(), type = '', style = { backgroundColor: '#ffffff' }, info = {}) {
+    return { id, createdAt, type, style, info }
 }
 function _createNotes() {
     console.log('_createNotes')
@@ -77,9 +65,10 @@ function _createNotes() {
     console.log(notes)
 }
 
+
 function _createNote(newNote) {
-    const { id, createdAt, type, isPinned, style, info } = newNote
-    const note = getEmptyNote(id, createdAt, type, isPinned, style, info)
+    const { id, createdAt, type, style, info } = newNote
+    const note = getEmptyNote(id, createdAt, type, style, info)
     console.log(note)
     if (!id) note.id = makeId()
 
