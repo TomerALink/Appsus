@@ -39,6 +39,7 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter, onToggleM
         if (status === 'inbox') filterBy = { ...mailService.getDefaultFilter(), status: status }
 
         onSetFilter(filterBy)
+        onToggleMenu()
     }
 
     var summary = calculateSummary()
