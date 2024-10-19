@@ -3,8 +3,9 @@ import { NoteTxt, NoteImg, NoteVideo, NoteTodos } from "./NoteDynamicCmp.jsx"
 const { useState } = React
 
 export function NoteAdd({ renderList, mailToNote }) {
-    const cond = mailToNote.body ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: mailToNote.body } } : noteService.getEmptyNote()
-    // maybe i need to change the mailToNote to {subject: null, title: null} but with the set function
+    const [mail, setMail] = useState({...mailToNote})
+    const condTxt = mail.body ? mail.body : mail.subject
+    const cond = condTxt ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: condTxt } } : noteService.getEmptyNote()
     const [note, setNote] = useState(cond)
 
     function handleAdd({ target }) {
@@ -50,6 +51,7 @@ export function NoteAdd({ renderList, mailToNote }) {
             .then(newNote => {
                 renderList()
                 setNote(noteService.getEmptyNote())
+                setMail({subject: '', title: ''})
             })
             .catch(err => {
                 console.log('err: NoteAdd cannot operate onSaveNote', err)
