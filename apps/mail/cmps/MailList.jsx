@@ -63,7 +63,7 @@ export function MailList({ setSortedMails, mails, onRemoveMail, onReadMail, onSt
                 {mails.map(mail =>
                     <li key={mail.id} >
                                 <Accordion  mail={mail} onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} >
-                                  <MailDetails mailId ={mail.id}>
+                                  <MailDetails mailId ={mail.id} onRemoveMail={onRemoveMail}>
                                       mail.body
                                   </MailDetails>
                                 </Accordion>
