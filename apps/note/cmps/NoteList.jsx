@@ -36,7 +36,7 @@ export function NoteList({ notes, onRemoveNote }) {
         <React.Fragment>
             <ul className="note-list">
                 {notes.map(note =>
-                    <li key={note.id} className="note-content">
+                    <li key={note.id} className="note-content" style={note.style}>
                         <NotePreview note={note} />
                         <section className="note-btn">
                             <button onClick={() => onSendNote(note)}>Send</button>

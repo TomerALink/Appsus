@@ -6,6 +6,7 @@ const { useNavigate } = ReactRouterDOM
 export function NoteAdd({ renderList, mailToNote }) {
     const [mail, setMail] = useState({ ...mailToNote })
     const condTxt = mail.body ? mail.body : mail.subject
+    // maybe i should fix it too
     const cond = condTxt ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: condTxt } } : noteService.getEmptyNote()
     const [note, setNote] = useState(cond)
     const navigate = useNavigate()
@@ -15,80 +16,72 @@ export function NoteAdd({ renderList, mailToNote }) {
 
         const field = target.name
         const value = target.value
-        console.log('1 target', field, value)
         // style
         if (field === 'style') {
-            newNote.style.backgroundColor = value
-            console.log('1 style', note.style)
-            setNote(newNote)
-            console.log('2 style', note.style)
+            setNote(prevNote => ({ ...prevNote, [field]: { backgroundColor: value } }))
         }
         // info-txt
         if (field === 'txt') {
             newNote.info.txt = value
-            console.log('1 txt', note.info.txt)
-            setNote(newNote)
-            console.log('2 txt', note.info.txt)
+            setNote(prevNote => ({ ...prevNote, ...newNote }))
         }
         //info-title
         if (field === 'title') {
             newNote.info.title = value
-            console.log('1 title', note.info.title)
-            setNote(newNote)
-            console.log('2 title', note.info.title)
+            setNote(prevNote => ({ ...prevNote, ...newNote }))
         }
         // info-url
         if (field === 'url') {
             newNote.info.url = value
-            setNote(newNote)
+            setNote(prevNote => ({ ...prevNote, ...newNote }))
         }
         // info-todos
         if (field === 'todos') {
             newNote.info.todos = value
-            setNote(newNote)
+            setNote(prevNote => ({ ...prevNote, ...newNote }))
         }
         // type
         if (field === 'type') {
-            // newNote.type = value
-            // setNote(newNote)
-            setNoteByType(value)
+            setInfoByType(value)
         }
     }
 
-    function setNoteByType(type) {
+    function setInfoByType(type) {
         const newNote = note
+        let txt
+        let title
+        let url
+        let todos
         switch (type) {
             case 'NoteTxt':
                 newNote.type = type
-                const txt = newNote.info.title ? newNote.info.title : ''
+                txt = newNote.info.title ? newNote.info.title : ''
                 newNote.info = { txt: txt }
-                setNote(newNote)
+                setNote(prevNote => ({ ...prevNote, ...newNote }))
                 break
             case 'NoteImg':
                 newNote.type = type
-                let title = newNote.info.title ? newNote.info.title : ''
-                const url = newNote.info.url ? newNote.info.url : ''
+                title = newNote.info.title ? newNote.info.title : ''
+                url = newNote.info.url ? newNote.info.url : ''
                 newNote.info = { title: title, url: url }
-                setNote(newNote)
+                setNote(prevNote => ({ ...prevNote, ...newNote }))
                 break
             case 'NoteTodos':
                 newNote.type = type
                 title = newNote.info.title ? newNote.info.title : ''
-                const todos = newNote.info.todos ? newNote.info.todos : []
+                todos = newNote.info.todos ? newNote.info.todos : []
                 newNote.info = { title: title, todos: todos }
-                setNote(newNote)
+                setNote(prevNote => ({ ...prevNote, ...newNote }))
         }
     }
 
     function onSaveNote(ev) {
         ev.preventDefault()
-        const newNote = note
-        newNote.createAt = Date.now()
-
-        noteService.save(newNote)
-            .then(newNote => {
+        setNote(prevNote => ({ ...prevNote, createAt: Date.now() }))
+        noteService.save(note)
+            .then(note => {
                 renderList()
-                setNote(noteService.getEmptyNote())
+                setNote(prevNote => ({ ...prevNote, ...noteService.getEmptyNote() }))
                 if (mailToNote) {
                     navigate("/note")
                 }
@@ -99,9 +92,7 @@ export function NoteAdd({ renderList, mailToNote }) {
     }
 
     const newTitle = note.info.title || ''
-    // const newColor = note.style.backgroundColor || "#ffffff"
-    console.log('1 All', newTitle)
-    console.log('2 All', note.info.txt)
+    const newColor = note.style.backgroundColor || "#ffffff"
     return (
         <form className="note-select-type-title" onSubmit={onSaveNote}>
             <input type='text' disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} name="title" id="title" placeholder="Take a note" />
@@ -111,12 +102,19 @@ export function NoteAdd({ renderList, mailToNote }) {
             <div className="note-select-content">
                 <DynamicCmp note={note} handleAdd={handleAdd} />
             </div>
-            {/* <input type='color' disabled={!note.type} value={newColor} onChange={handleAdd} name="style" id="style" list="colors" />
+            <input type='color' disabled={!note.type} value={newColor} onChange={handleAdd} name="style" id="style" list="colors" />
             <datalist id="colors">
-                <option value="#cccccc">Grey</option>
-                <option value="#ffffff">White</option>
-                <option value="#6699cc">Blue</option>
-            </datalist> */}
+                <option value="#ffffff">white</option>
+                <option value="#eea29a">pink</option>
+                <option value="#b5e7a0">green</option>
+                <option value="#ffef96">yellow</option>
+                <option value="#f2ae72">orange</option>
+                <option value="#80ced6">blue</option>
+                <option value="#b0aac0">purple</option>
+                <option value="#dac292">brown</option>
+                <option value="#b2c2bf">grey</option>
+                <option value="#fff2df">cream</option>
+            </datalist>
             <button type='submit' disabled={!note.type} >save</button>
         </form>
     )
