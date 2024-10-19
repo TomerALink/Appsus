@@ -19,6 +19,7 @@ export function MailIndex() {
     const [filterBy, setFilterBy] = useState(mailService.getValuesFromSearchParams(searchParams))
     const [isComposeVisible, setIsComposeVisible] = useState(false)
     const [mailFromNote, setMailFromNote] = useState(mailService.getValuesFromSearchParams(searchParams))
+    const [sortedMails, setSortedMails] = useState(mails)
 
 
     useEffect(() => {
@@ -27,7 +28,9 @@ export function MailIndex() {
         loadMails()
     }, [filterBy])
 
-
+    // setMails(updatedMails)
+    // setSortedMails(updatedMails)
+    // setUnfilterd(updatedMails)
     // useEffect(() => {
     //     mailService.query(filterBy)
     //     .then(setMails)
@@ -36,13 +39,13 @@ export function MailIndex() {
     //     })
     // }, [filterBy,mails])
 
-    useEffect(() => {
-        mailService.query(filterBy)
-            .then(setMails)
-            .catch(err => {
-                console.log('err:', err)
-            })
-    }, [setMails,onDelete])
+    // useEffect(() => {
+    //     mailService.query(filterBy)
+    //         .then(setMails)
+    //         .catch(err => {
+    //             console.log('err:', err)
+    //         })
+    // }, [setMails,onDelete])
 
 
     useEffect(() => {
@@ -51,7 +54,12 @@ export function MailIndex() {
             .catch(err => {
                 console.log('err:', err)
             })
-    }, [mails,onDelete])
+            mailService.query(filterBy)
+                    .then(setSortedMails)
+                    .catch(err => {
+                        console.log('err:', err)
+                    })
+    }, [mails])
 
 
 
@@ -98,7 +106,7 @@ export function MailIndex() {
 
     function onDelete() {
 
-
+        console.log('onDelete')
         // Filter mails to delete
         const deletedMails = mails.filter(mail => mail.isDeleted);
 
@@ -139,7 +147,7 @@ export function MailIndex() {
     }
 
     function onRemoveMail(mailId) {
-
+        console.log('onRemoveMail', mailId)
         const updatedMails = mails.map(mail => {
 
             if (mail.id === mailId) {
@@ -222,6 +230,7 @@ export function MailIndex() {
                 <main className="main-container">
                     {mails.length > 0 ? (
                         <MailList
+                            setSortedMails={setSortedMails}
                             filterBy={filterBy}
                             onSendMail={onSendMail}
                             onRemoveMail={onRemoveMail}

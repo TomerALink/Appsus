@@ -31,8 +31,9 @@ export function MailDetails({ mailId }) {
     navigate("/mail")
   }
 
-  function onSaveMailAsNote() {
-
+  function onSaveMailAsNote(subject ,body) {
+    console.log('onSaveMailAsNote',subject ,body)
+    navigate(`/note?subject=${subject}&body=${body}`)
   }
 
   function getSenderEmail(from) {
@@ -48,7 +49,7 @@ export function MailDetails({ mailId }) {
         <div className="mail-buttons">
           <span><i className="fa-solid fa-expand"></i></span>
           <span><i style={{ transform: "scaleX(-1)" }} className="fa-solid fa-share"></i></span>
-          <span onClick={onSaveMailAsNote} ><i className="fa-solid fa-paper-plane"></i></span>
+          <span onClick={()=>onSaveMailAsNote(subject ,body)} ><i className="fa-solid fa-paper-plane"></i></span>
           <span><i className="fa-solid fa-trash"></i></span>
         </div>
       </div>

@@ -8,18 +8,21 @@ import { MailDetails } from "../cmps/MailDetails.jsx"
 
 const { useState, useEffect } = React
 
-export function MailList({  mails, onRemoveMail, onReadMail, onStaredMail, filterBy, onDelete }) {
+export function MailList({ setSortedMails, mails, onRemoveMail, onReadMail, onStaredMail, filterBy, onDelete }) {
     const navigate = useNavigate()
-    const [sortedMails, setSortedMails] = useState(mails)
+    
     const [sortingDiraction, setSortingDiraction] = useState(-1)
     const [dateClass, setDateClass] = useState('')
     const [subjectClass, setSubjectClass] = useState('')
 
 
 
-    useEffect(() => {
-        setSortedMails(mails)
-    }, [sortedMails, onDelete])
+    // useEffect(() => {
+    //     setSortedMails(mails)
+    // }, [sortedMails, onDelete])
+    // useEffect(() => {
+    //     // setSortedMails(mails)
+    // }, [setSortedMails, onDelete])
 
     function onNavToMailDetails(id) {
         //TODO
