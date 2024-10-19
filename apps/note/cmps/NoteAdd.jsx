@@ -4,6 +4,7 @@ const { useState } = React
 
 export function NoteAdd({ renderList, mailToNote }) {
     const cond = mailToNote.body ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: mailToNote.body } } : noteService.getEmptyNote()
+    // maybe i need to change the mailToNote to {subject: null, title: null} but with the set function
     const [note, setNote] = useState(cond)
 
     function handleAdd({ target }) {

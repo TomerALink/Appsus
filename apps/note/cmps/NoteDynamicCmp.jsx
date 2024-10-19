@@ -51,26 +51,30 @@ export function NoteTodos({ note, handleAdd }) {
     const [todo, setTodo] = useState({ txt: '', doneAt: null })
 
     function handleList() {
+        console.log('1', todo)
+        if (note.info.todos) note.info.todos.push(todo)
         const target = {
             name: 'todos',
-            value: note.info.todos ? note.info.todos.push(todo) : [todo]
+            value: note.info.todos ? note.info.todos : [todo]
         }
         handleAdd({ target })
         setTodo({ txt: '', doneAt: null })
-        console.log(note.info.todos)
+        console.log('2', note.info.todos) //
     }
 
     function onDoneTodo({ item, idx }) {
-        console.log('onDoneTodo Debug', item)
+        console.log('onDoneTodo Debug', item) //
         const curTodo = item
         curTodo.doneAt = curTodo.doneAt ? null : new Date()
-        const target = { name: 'todos', value: note.info.todos.splice(idx, 1, curTodo) }
+        note.info.todos.splice(idx, 1, curTodo)
+        const target = { name: 'todos', value: note.info.todos }
         handleAdd({ target })
     }
 
     function onRemoveTodo(idx) {
-        console.log('onRemoveTodo Debug', idx)
-        const target = { name: 'todos', value: note.info.todos.splice(idx, 1) }
+        console.log('onRemoveTodo Debug', idx) //
+        note.info.todos.splice(idx, 1)
+        const target = { name: 'todos', value: note.info.todos }
         handleAdd({ target })
         // renderList()
     }
@@ -79,7 +83,7 @@ export function NoteTodos({ note, handleAdd }) {
 
 
 
-    console.log('All Cmp Debug', note.info.todos)
+    console.log('3', note.info.todos) //
     const todoTxt = todo.txt
     return (
         <Fragment>
