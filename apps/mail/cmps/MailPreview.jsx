@@ -22,6 +22,12 @@ export function MailPreview({ mail, onRemoveMail, onReadMail, onStaredMail }) {
     
     return (
         <div className={`mail-preview ${isReadClass}`}>
+            <div className="first-letter">
+                {from[0]}
+            </div>
+            <span className="sender">
+                {from.split('@')[0]}
+            </span>
             <span
                 className={isStared ? "fa-solid fa-star star filled" : "fa-regular fa-star star"}
                 onClick={(e) => {

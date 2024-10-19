@@ -27,7 +27,7 @@
 @import './apps/mail/cmps/mail-compose.css';
 @import './apps/mail/cmps/mail-filter.css';
 @import './apps/mail/cmps/accordion.css';
-
+@import './setup/mail-mq.css';
 
 
 /* @import './apps/mail/cmps/MailList.css'; */

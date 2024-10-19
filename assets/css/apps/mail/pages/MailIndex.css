@@ -17,6 +17,7 @@
  .mail-index .main-container {
    border-radius: 1.25em;
    background-color: var(--mono-color-01);
+   margin-right: 3em;
  }
 
  
