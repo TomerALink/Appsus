@@ -7,8 +7,8 @@
 
     .compos-button {
         position: fixed;
-        right: 1.5em;
-        bottom: 1.5em;
+        left: 93wh;
+        top: 93vh;
         z-index: 99;
     }
     .mail-preview .buttons{
