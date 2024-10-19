@@ -1,5 +1,5 @@
 import { noteService } from "../services/note.service.js"
-import { NoteTxt, NoteImg, NoteVideo, NoteTodos } from "./NoteDynamicCmp.jsx"
+import { NoteTxt, NoteImg, NoteTodos } from "./NoteDynamicCmp.jsx"
 const { useState } = React
 const { useNavigate } = ReactRouterDOM
 
@@ -44,8 +44,8 @@ export function NoteAdd({ renderList, mailToNote }) {
         else setNote(prevNote => ({ ...prevNote, [field]: value }))
     }
 
-    function onColorNote(){
-        
+    function onColorNote() {
+
     }
 
     function onSaveNote(ev) {
@@ -68,13 +68,12 @@ export function NoteAdd({ renderList, mailToNote }) {
 
     const newTitle = note.info.title || ''
     return (
-        <form className="note-add" onSubmit={onSaveNote}>
+        <form className="note-select-type-title" onSubmit={onSaveNote}>
             <input disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} type="text" name="title" id="title" placeholder="Take a note" />
             <button type='button' value={'NoteTxt'} className={note.type === 'NoteTxt' ? 'marked' : ''} onClick={handleAdd} name="type" >text</button>
             <button type='button' value={'NoteImg'} className={note.type === 'NoteImg' ? 'marked' : ''} onClick={handleAdd} name="type" >image</button>
-            <button type='button' value={'NoteVideo'} className={note.type === 'NoteVideo' ? 'marked' : ''} onClick={handleAdd} name="type" >video</button>
             <button type='button' value={'NoteTodos'} className={note.type === 'NoteTodos' ? 'marked' : ''} onClick={handleAdd} name="type" >todos</button>
-            <div className="note-content">
+            <div className="note-select-content">
                 <DynamicCmp note={note} handleAdd={handleAdd} />
             </div>
             <button type='button' onClick={() => onColorNote(note.title.backgroundColor)}>color</button>
@@ -90,8 +89,6 @@ function DynamicCmp(props) {
             return <NoteTxt {...props} />
         case 'NoteImg':
             return <NoteImg {...props} />
-        case 'NoteVideo':
-            return <NoteVideo {...props} />
         case 'NoteTodos':
             return <NoteTodos {...props} />
     }

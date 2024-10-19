@@ -1,7 +1,66 @@
+const { useState } = React
+
 export function NotePreview({ note }) {
-    const showTxt = note.info.title || note.info.txt
+    // const showTxt = note.info.title || note.info.txt
     return (
-        <h2>{showTxt}</h2>
+        <DynamicCmp note={note} />
     )
 }
 
+function DynamicCmp(props) {
+    switch (props.note.type) {
+        case 'NoteTxt':
+            return <NoteTxtPrev {...props} />
+        case 'NoteImg':
+            return <NoteImgPrev {...props} />
+        case 'NoteTodos':
+            return <NoteTodosPrev {...props} />
+    }
+}
+
+function NoteTxtPrev({ note }) {
+    const [isShowLong, setIsShowLong] = useState(false)
+    const length = 5
+
+    function onToggleIsShowLong() {
+        setIsShowLong(isShowLong => !isShowLong)
+    }
+
+    const isLongText = note.info.txt.length > length
+    const textToShow = (isShowLong || !isLongText) ? note.info.txt : (note.info.txt.substring(0, length)) + '...'
+    return (
+        <React.Fragment>
+            <p>{textToShow}</p>
+            {isLongText &&
+                <button className="long-txt-btn" onClick={onToggleIsShowLong}>
+                    {isShowLong ? 'Show Less' : 'Read More'}
+                </button>
+            }
+        </React.Fragment>
+    )
+}
+
+function NoteImgPrev({ note }) {
+    return (
+        <React.Fragment>
+            <h2>{note.info.title}</h2>
+            <img src={note.info.url} alt='note-image'></img>
+        </React.Fragment>
+    )
+}
+
+function NoteTodosPrev({ note }) {
+    // i want to limit list length
+    console.log('todo:', note.info.todos)
+    return (
+        <React.Fragment>
+            <h2>{note.info.title}</h2>
+            <ul className='todos-list'>
+                {note.info.todos && note.info.todos.map((todo, idx) =>
+                    <li key={idx} className={todo.doneAt ? 'done' : ''} >{todo.txt}</li>
+                )}
+            </ul>
+        </React.Fragment>
+    )
+
+}

@@ -34,16 +34,6 @@ export function NoteImg({ note, handleAdd }) {
 
 }
 
-export function NoteVideo({ note, handleAdd }) {
-    const newUrl = note.info.url || ''
-
-    return (
-        <Fragment>
-            <input value={newUrl} onChange={handleAdd} type="url" name="url" id="url" pattern="https://.*" placeholder="Enter video URL" required />
-        </Fragment>
-    )
-}
-
 export function NoteTodos({ note, handleAdd }) {
     const [todo, setTodo] = useState({ txt: '', doneAt: null })
 
@@ -91,10 +81,10 @@ export function NoteTodos({ note, handleAdd }) {
             {/* <TodoList onDoneTodo={onDoneTodo} onRemoveTodo={onRemoveTodo} todos={note.info.todos} /> */}
             <ul className='todos-list'>
                 {note.info.todos && note.info.todos.map((item, idx) => {
-                    console.log('return', item.doneAt ? 'done' : '')
+                    // console.log('return', item.doneAt ? 'done' : '')
                     return (
                         <li key={idx} className={item.doneAt ? 'done' : ''} >
-                            <span>{`${item.txt}`}</span>
+                            <span>{item.txt}</span>
                             <button type='button' onClick={() => onDoneTodo(item, idx)}>v</button>
                             <button type='button' onClick={() => onRemoveTodo(idx)}>x</button>
                         </li>

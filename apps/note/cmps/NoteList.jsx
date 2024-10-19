@@ -20,10 +20,6 @@ export function NoteList({ notes, onRemoveNote }) {
                 subject = note.info.title
                 body = `Watch the image in the following link:\n ${note.info.url}`
                 break
-            case 'NoteVideo':
-                subject = note.info.title
-                body = `Watch the video in the following link:\n ${note.info.url}`
-                break
             case 'NoteTodos':
                 let todoList = note.info.todos.map((todo, idx) => `${(idx)} - ${todo.txt} - ${todo.doneAt ? 'DONE' : 'IN PROGRESS'}`)
                 console.log(todoList)
@@ -40,9 +36,9 @@ export function NoteList({ notes, onRemoveNote }) {
         <React.Fragment>
             <ul className="note-list">
                 {notes.map(note =>
-                    <li key={note.id}>
+                    <li key={note.id} className="note-content">
                         <NotePreview note={note} />
-                        <section>
+                        <section className="note-btn">
                             <button onClick={() => onSendNote(note)}>Send</button>
                             <button onClick={() => onEditNote(note)}>Edit</button>
                             <button onClick={() => onRemoveNote(note.id)}>Remove</button>
