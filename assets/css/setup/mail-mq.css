@@ -57,7 +57,7 @@
     }
     .compose-filter-container .search {
         display: grid;
-        grid-template-columns: 10px 5fr;
+        grid-template-columns: 50px 5fr;
         align-items: center;
         margin-right: 3em;
         width: 95vw;
