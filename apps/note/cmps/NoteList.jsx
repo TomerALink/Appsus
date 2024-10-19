@@ -43,7 +43,6 @@ export function NoteList({ notes, onRemoveNote }) {
                     <li key={note.id}>
                         <NotePreview note={note} />
                         <section>
-                            <button onClick={() => onColorNote(note)}>Color</button>
                             <button onClick={() => onSendNote(note)}>Send</button>
                             <button onClick={() => onEditNote(note)}>Edit</button>
                             <button onClick={() => onRemoveNote(note.id)}>Remove</button>

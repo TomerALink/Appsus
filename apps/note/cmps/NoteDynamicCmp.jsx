@@ -45,13 +45,10 @@ export function NoteVideo({ note, handleAdd }) {
 }
 
 export function NoteTodos({ note, handleAdd }) {
-
-    /// i think i need to convert all this section to todos and not single todo!!
-
     const [todo, setTodo] = useState({ txt: '', doneAt: null })
 
     function handleList() {
-        console.log('handle 1', todo)
+        //console.log('handle 1', todo)
         if (note.info.todos) note.info.todos.push(todo)
         const target = {
             name: 'todos',
@@ -59,32 +56,31 @@ export function NoteTodos({ note, handleAdd }) {
         }
         handleAdd({ target })
         setTodo({ txt: '', doneAt: null })
-        console.log('handle 2', note.info.todos) //
+        //console.log('handle 2', note.info.todos) //
     }
 
-    function onDoneTodo({ item, idx }) {
-        console.log('Done 1', item, idx) //
+    function onDoneTodo(item, idx) {
+        //console.log('Done 1', item, idx) //
         const curTodo = item
-        curTodo.doneAt = curTodo.doneAt ? null : new Date()
+        curTodo.doneAt = curTodo.doneAt ? null : Date.now()
         note.info.todos.splice(idx, 1, curTodo)
+        //console.log('Done 2', note.info.todos) //
         const target = { name: 'todos', value: note.info.todos }
+        //console.log('Done 3', target) //
         handleAdd({ target })
+        setTodo({ txt: '', doneAt: null })
     }
 
     function onRemoveTodo(idx) {
-        console.log('Remove 1', idx) //
+        //console.log('Remove 1', idx) //
         note.info.todos.splice(idx, 1)
         const target = { name: 'todos', value: note.info.todos }
         handleAdd({ target })
-        console.log('Remove 2', note.info.todos) //
-        // renderList()
+        setTodo({ txt: '', doneAt: null })
+        //console.log('Remove 2', note.info.todos) //
     }
 
-    // function renderList(){
-
-
-
-    console.log('All', note.info.todos) //
+    //console.log('All', note.info.todos) //
     const todoTxt = todo.txt
     return (
         <Fragment>
@@ -95,9 +91,9 @@ export function NoteTodos({ note, handleAdd }) {
             {/* <TodoList onDoneTodo={onDoneTodo} onRemoveTodo={onRemoveTodo} todos={note.info.todos} /> */}
             <ul className='todos-list'>
                 {note.info.todos && note.info.todos.map((item, idx) => {
-                    console.log('return', item, idx)
+                    console.log('return', item.doneAt ? 'done' : '')
                     return (
-                        <li key={idx} {...item.doneAt ? 'done' : ''} >
+                        <li key={idx} className={item.doneAt ? 'done' : ''} >
                             <span>{`${item.txt}`}</span>
                             <button type='button' onClick={() => onDoneTodo(item, idx)}>v</button>
                             <button type='button' onClick={() => onRemoveTodo(idx)}>x</button>
@@ -108,26 +104,3 @@ export function NoteTodos({ note, handleAdd }) {
         </Fragment>
     )
 }
-
-// function TodoList(onDoneTodo, onRemoveTodo, todos) {
-//     function onDoneTodoList(item, idx) {
-//         onDoneTodo(item, idx)
-//     }
-
-//     function onRemoveTodoList(idx) {
-//         onRemoveTodo(idx)
-//     }
-//     return (
-//         <Fragment>
-//             <ul className='todos-list'>
-//                 {todos && todos.map((item, idx) =>
-//                     <li key={idx} {...item.doneAt ? 'done' : ''} >
-//                         <span>{`${item.txt}`}</span>
-//                         <button type='button' onClick={() => onDoneTodoList(item, idx)}>v</button>
-//                         <button type='button' onClick={() => onRemoveTodoList(idx)}>x</button>
-//                     </li>
-//                 )}
-//             </ul>
-//         </Fragment>
-//     )
-// }

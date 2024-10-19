@@ -44,6 +44,10 @@ export function NoteAdd({ renderList, mailToNote }) {
         else setNote(prevNote => ({ ...prevNote, [field]: value }))
     }
 
+    function onColorNote(){
+        
+    }
+
     function onSaveNote(ev) {
         ev.preventDefault()
         const newNote = note
@@ -73,6 +77,7 @@ export function NoteAdd({ renderList, mailToNote }) {
             <div className="note-content">
                 <DynamicCmp note={note} handleAdd={handleAdd} />
             </div>
+            <button type='button' onClick={() => onColorNote(note.title.backgroundColor)}>color</button>
             <button type='submit' disabled={!note.type} >save</button>
         </form>
     )
