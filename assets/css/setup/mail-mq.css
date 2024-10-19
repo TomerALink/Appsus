@@ -9,6 +9,7 @@
         position: absolute;
         right: 1.5em;
         bottom: 1.5em;
+        z-index: 99;
     }
     .mail-preview .buttons{
         display: none !important;
