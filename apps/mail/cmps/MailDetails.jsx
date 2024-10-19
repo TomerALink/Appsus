@@ -12,7 +12,7 @@ export function MailDetails({ mailId }) {
 
   useEffect(() => {
     loadMail()
-  }, [mailId, mail])
+  }, [mailId])
 
   function loadMail() {
     mailService.get(mailId)

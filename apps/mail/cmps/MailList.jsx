@@ -2,14 +2,13 @@
 
 const { useNavigate } = ReactRouterDOM
 import { MailPreview } from "./MailPreview.jsx"
-import { MailCompose } from "./MailCompose.jsx"
 import { mailService } from "../services/mail.service.js"
 import { Accordion } from "../cmps/Accordion.jsx"
 import { MailDetails } from "../cmps/MailDetails.jsx"
 
 const { useState, useEffect } = React
 
-export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStaredMail, isComposeVisible, filterBy, toggleCompose, onDelete }) {
+export function MailList({  mails, onRemoveMail, onReadMail, onStaredMail, filterBy, onDelete }) {
     const navigate = useNavigate()
     const [sortedMails, setSortedMails] = useState(mails)
     const [sortingDiraction, setSortingDiraction] = useState(-1)
@@ -20,7 +19,7 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
 
     useEffect(() => {
         setSortedMails(mails)
-    }, [sortedMails])
+    }, [sortedMails, onDelete])
 
     function onNavToMailDetails(id) {
         //TODO
@@ -43,7 +42,7 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
 
     function onEmptyTrashCan() {
         onDelete()
-        // console.log('onDelete')
+        console.log('onDelete')
     }
 
 
@@ -68,7 +67,6 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
                     </li>
                 )}
             </ul>
-            {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail} />}
         </React.Fragment>
     )
 }

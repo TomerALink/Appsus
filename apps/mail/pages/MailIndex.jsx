@@ -4,7 +4,7 @@ import { MailFolderList } from "../cmps/MailFolderList.jsx"
 import { mailService } from "../services/mail.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
-
+import { MailCompose } from "../cmps/MailCompose.jsx"
 
 
 const { useState, useEffect } = React
@@ -16,17 +16,42 @@ export function MailIndex() {
     const [mails, setMails] = useState([])
     const [unfilterd, setUnfilterd] = useState(mails)
     const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    const [filterBy, setFilterBy] = useState(mailService.getValuesFromSearchParams(searchParams))
     const [isComposeVisible, setIsComposeVisible] = useState(false)
+    const [mailFromNote, setMailFromNote] = useState(mailService.getValuesFromSearchParams(searchParams))
 
 
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
-
+        if (mailFromNote.subject || mailFromNote.body) setIsComposeVisible(true)
         loadMails()
     }, [filterBy])
 
 
+    // useEffect(() => {
+    //     mailService.query(filterBy)
+    //     .then(setMails)
+    //     .catch(err => {
+    //         console.log('err:', err)
+    //     })
+    // }, [filterBy,mails])
+
+    useEffect(() => {
+        mailService.query(filterBy)
+            .then(setMails)
+            .catch(err => {
+                console.log('err:', err)
+            })
+    }, [setMails,onDelete])
+
+
+    useEffect(() => {
+        mailService.query()
+            .then(setUnfilterd)
+            .catch(err => {
+                console.log('err:', err)
+            })
+    }, [mails,onDelete])
 
 
 
@@ -37,108 +62,71 @@ export function MailIndex() {
     function onSendMail(mail) {
 
         _sendMail(mail)
-           
-                toggleCompose()
-           
+
+        toggleCompose()
+
     }
 
-   function _sendMail(mail){
-    const updatedMail = { ...mail, sentAt:  Math.floor(Date.now()) }
-    mailService.save(updatedMail)
-        .then((savedMail) => {
-            setMails(prevMails => {
-                const mailExists = prevMails.some(m => m.id === mail.id)
+    function _sendMail(mail) {
+        const updatedMail = { ...mail, sentAt: Math.floor(Date.now()) }; // Consider using seconds if needed
 
-                if (mailExists) {
-                    return prevMails.map(m => m.id === mail.id ? updatedMail : m)
-                } else {
-                    return [...prevMails, savedMail]
-                }
+        mailService.save(updatedMail)
+            .then((savedMail) => {
+                // After saving, query for the updated mails
+                return mailService.query(filterBy);
             })
-        })
-        .catch(error => {
-            console.error("Failed to save mail:", error)
-        })
-   }
-
-    function onSendMailFromNote(subject = 'test subject', body = 'test body') { // TODO for Rotem
-
-        // console.log(subject,body)
-        const mail = ({ ...mailService.getEmptyMail(), ...{ from: mailService.loggedinUser.email,
-            subject,
-            body,
-         } })
-        
-        
-        _sendMail(mail)
-        
+            .then((mails) => {
+                // Set the mails to the state after querying
+                setMails(mails);
+            })
+            .catch(error => {
+                console.error("Failed to save mail:", error);
+                // Optionally handle error (e.g., show a notification)
+            });
     }
 
-    // const body_tst = 
-    // <h1>About cars and us...</h1>
-    //         <p>
-    //             Lorem ipsum dolor sit amet consectetur,
-    //             adipisicing elit. Optio dolore sapiente,
-    //             iste animi corporis nisi atque tempora assumenda
-    //             dolores. Nobis nam dolorem rerum illo facilis nemo
-    //             sit voluptatibus laboriosam necessitatibus!
-    //         </p>
-    //         <p>
-    //             Lorem ipsum dolor sit amet consectetur,
-    //             adipisicing elit. Optio dolore sapiente,
-    //             iste animi corporis nisi atque tempora assumenda
-    //             dolores. Nobis nam dolorem rerum illo facilis nemo
-    //             sit voluptatibus laboriosam necessitatibus!
-    //         </p>
-  
 
     function loadMails() {
-        // console.log("loading")
         mailService.query(filterBy)
             .then(setMails)
             .catch(err => {
                 console.log('err:', err)
             })
 
-        mailService.query()
-            .then(setUnfilterd)
-            .catch(err => {
-                console.log('err:', err)
-            })
+
     }
 
     function onDelete() {
 
-        const mailsToDelete = mails.filter(mail => mail.isDeleted)
 
-        if (!mailsToDelete.length) {
-            console.log('No mails to delete')
-            return
+        // Filter mails to delete
+        const deletedMails = mails.filter(mail => mail.isDeleted);
+
+        if (deletedMails.length === 0) {
+            console.log("No mails to delete.");
+            return; // Exit if there are no mails to delete
         }
 
-        // console.log('Mails to delete:', mailsToDelete.map(mail => mail.id))
+        mailService.removeAll(deletedMails)
+        // // Create an array of promises for deleting each mail
+        // const deletePromises = deletedMails.map(mail => mailService.remove(mail.id));
 
-        const deletePromises = mailsToDelete.map(mail => {
-            return mailService.remove(mail.id)
-                .then(() => {
-                    console.log(`Mail with id ${mail.id} was removed`)
-                })
-                .catch(err => {
-                    console.log('Problem removing mail', err)
-                })
-        })
-
-        Promise.all(deletePromises)
-            .then(() => {
-                return mailService.query(filterBy)
-            })
-            .then((updatedMails) => {
-                setMails(updatedMails)
-            })
-            .catch(err => {
-                console.log('Problem fetching updated mails', err)
-            })
+        // // Use Promise.all to wait for all deletions to complete
+        // Promise.all(deletePromises)
+        //     .then(() => {
+        //         // After deletion, we can query the mails to refresh the state
+        //         return mailService.query(filterBy);
+        //     })
+        //     .then((updatedMails) => {
+        //         // Set the mails to the state after querying
+        //         setMails(updatedMails);
+        //     })
+        //     .catch(error => {
+        //         console.error("Failed to delete some mails:", error);
+        //         // Handle any errors that occurred during deletion
+        //     });
     }
+
 
 
     function onSetFilter(filterBy) {
@@ -209,8 +197,6 @@ export function MailIndex() {
             })
     }
 
-
-    if (!mails) return <div>Loading...</div>
     return (
 
         <section className="mail-index">
@@ -219,8 +205,6 @@ export function MailIndex() {
                     <img src="./assets/img/logo.png" className="mail-logo" />
                     <nav>
                         <button onClick={toggleCompose} className="compos-button"><i className="fa-solid fa-pencil"></i>Compos</button>
-                        <button onClick={() => onSendMailFromNote('test titleeee', '<h1 style="color:red; font-size:35px">test</h1><ul style="list-style-type: disc;"><li>jhgjh</li><li>jhgjhg</li></ul>')} className="compos-button"><i className="fa-solid fa-pencil"></i>Note</button>
-
                     </nav>
                 </div>
 
@@ -239,8 +223,6 @@ export function MailIndex() {
                     {mails.length > 0 ? (
                         <MailList
                             filterBy={filterBy}
-                            toggleCompose={toggleCompose}
-                            isComposeVisible={isComposeVisible}
                             onSendMail={onSendMail}
                             onRemoveMail={onRemoveMail}
                             onReadMail={onReadMail}
@@ -249,9 +231,10 @@ export function MailIndex() {
                             onDelete={onDelete}
                         />
                     ) : (
-                        <div>Loading...</div>
+                        <div>
+                            You have no emails...</div>
                     )}
-
+                        {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail}/>}
                 </main>
             </div>
 
