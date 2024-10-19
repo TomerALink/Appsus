@@ -6,7 +6,7 @@
     }
 
     .compos-button {
-        position: absolute;
+        position: fixed;
         right: 1.5em;
         bottom: 1.5em;
         z-index: 99;
