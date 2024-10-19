@@ -1,9 +1,11 @@
-const { Link } = ReactRouterDOM
+const { useNavigate } = ReactRouterDOM
 import { NotePreview } from "./NotePreview.jsx";
 
 export function NoteList({ notes, onRemoveNote }) {
 
-    function convertNoteToMail(note) {
+    const navigate = useNavigate()
+
+    function onSendNote(note) {
         let subject
         let body
 
@@ -23,34 +25,29 @@ export function NoteList({ notes, onRemoveNote }) {
                 body = `Watch the video in the following link:\n ${note.info.url}`
                 break
             case 'NoteTodos':
-                let todoList = note.info.todos.map(todo => `* ${todo.txt}`)
-                todoList = todoList.join('\n')
+                let todoList = note.info.todos.map(todo, idx => `${(idx)} - ${todo.txt} - ${todo.doneAt ? 'DONE' : 'IN PROGRESS'}`)
+                // 1 - dfds fdsf cdff sdsds sdsd  - DONE , 2 - df dfdfdf  dfdfdf? ddf - IN PROGRESS , 3 - fffg
+                // pay attention to signs: ' , ? ! [] (). i am not sure how they are converted back to text
+                todoList = todoList.join(' , ')
                 subject = note.info.title
                 body = todoList
         }
-        return { subject, body }
+        navigate(`/mail?status=inbox&subject=${subject}&body=${body}`)
     }
 
     return (
         <React.Fragment>
             <ul className="note-list">
-                {notes.map(note => {
-                    const { subject, body } = convertNoteToMail(note)
-                    console.log(subject)
-                    console.log(body)
-                    return (
-                        <li key={note.id}>
-                            <NotePreview note={note} />
-                            <section>
-                                <button onClick={() => onColorNote(note.id)}>Color</button>
-                                {/* <button onClick={() => onSendNote(note.id)}>Send</button> */}
-                                <button ><Link to={`/mail?status=inbox&subject=${subject}&body=${body}`}>Send</Link></button>
-                                <button ><Link to={`/note/edit/${note.id}`}>Edit</Link></button>
-                                <button onClick={() => onRemoveNote(note.id)}>Remove</button>
-                            </section>
-                        </li>
-                    )
-                }
+                {notes.map(note =>
+                    <li key={note.id}>
+                        <NotePreview note={note} />
+                        <section>
+                            <button onClick={() => onColorNote(note)}>Color</button>
+                            <button onClick={() => onSendNote(note)}>Send</button>
+                            <button onClick={() => onEditNote(note)}>Edit</button>
+                            <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+                        </section>
+                    </li>
                 )}
             </ul>
         </React.Fragment>
