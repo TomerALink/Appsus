@@ -61,7 +61,7 @@ export function MailList({ setSortedMails, mails, onRemoveMail, onReadMail, onSt
             {filterBy.status === 'trash' && <button className="empty-trash-can" onClick={() => onEmptyTrashCan()}><i className="fa-solid fa-trash"></i> Empty trash can</button>}
             <ul className="mail-list">
                 {mails.map(mail =>
-                    <li key={mail.id}>
+                    <li key={mail.id} >
                                 <Accordion  mail={mail} onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} >
                                   <MailDetails mailId ={mail.id}>
                                       mail.body

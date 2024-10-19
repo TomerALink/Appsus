@@ -6,9 +6,14 @@ export function Accordion({ children,  mail, onRemoveMail, onReadMail, onStaredM
     const [isOpen, setIsOpen] = useState(false)
     const openClass = isOpen ? 'open' : ''
 
+    function onOpen(){
+        setIsOpen(isOpen => !isOpen)
+        onReadMail(mail.id)
+    }
+
     return (
         <section className={`accordion ${openClass}`}>
-            <section onClick={() => setIsOpen(isOpen => !isOpen)} className="title-container" >
+            <section onClick={() => onOpen()} className="title-container" >
           
                 <MailPreview mail={mail} onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} />
                

@@ -5,6 +5,9 @@
     background-color: var(--blue-color-01);
 }
 
+.my-burger-menu{
+    display: none;
+}
 
 .mail-logo {
     /* transform: rotate(180deg); */

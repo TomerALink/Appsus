@@ -1,6 +1,6 @@
 .mail-preview{
     display: grid;
-    grid-template-columns: 1em 20% 10% 50% 5%;
+    grid-template-columns: 1em 20% 10% 45% 10%;
     justify-content:space-between;
     padding: 0.5em;
     margin: 0;
@@ -15,7 +15,7 @@
     white-space: nowrap;
 }
 
-.from-subject {
+.mail-from {
     overflow: hidden;
 }
 
@@ -80,4 +80,20 @@
 
 .star.filled {
     color: gold;
+}
+
+.first-letter{
+    text-transform: uppercase;
+    background-color: rgb(91, 91, 194);
+    color: var(--mono-color-01);
+    padding: .5em;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    display: none;
+}
+
+.sender{
+    text-transform: capitalize;
+    display: none;
 }

@@ -7,11 +7,13 @@ import { utilService } from "../../../services/util.service.js"
 import { MailCompose } from "../cmps/MailCompose.jsx"
 
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const { useSearchParams } = ReactRouterDOM
 
 export function MailIndex() {
 
+    const menu = useRef(null)
+    const modal = useRef(null)
 
     const [mails, setMails] = useState([])
     const [unfilterd, setUnfilterd] = useState(mails)
@@ -20,7 +22,9 @@ export function MailIndex() {
     const [isComposeVisible, setIsComposeVisible] = useState(false)
     const [mailFromNote, setMailFromNote] = useState(mailService.getValuesFromSearchParams(searchParams))
     const [sortedMails, setSortedMails] = useState(mails)
+    
 
+   
 
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
@@ -43,6 +47,24 @@ export function MailIndex() {
     }, [mails])
 
 
+    function onToggleMenu(){
+        // const menu = document.querySelector('.side-menu');
+        // const modal = document.querySelector('.modal');
+        console.log(menu.current.style)
+        if(menu.current.style.display === 'block') {
+            menu.current.style.display = 'none'
+            modal.current.style.display = 'none'
+            console.log("none")
+        } else {
+             menu.current.style.display = 'block'
+            modal.current.style.display = 'block'
+            console.log("block")
+        }
+    }
+    
+
+    
+    
 
     function toggleCompose() {
         setIsComposeVisible(prevComposeVisible => !prevComposeVisible)
@@ -195,20 +217,26 @@ export function MailIndex() {
                     </nav>
                 </div>
 
-                <MailFilter onSetFilter={onSetFilter} filterBy={filterBy} />
+                <MailFilter onSetFilter={onSetFilter} filterBy={filterBy} onToggleMenu={onToggleMenu}/>
             </div>
-
-            <div className="aside-main">
+            <div ref={modal} className="modal" onClick={onToggleMenu}></div>
+            
+            <div  className="aside-main">
+            
+                <div ref={menu} className="folder-list">
                 <MailFolderList
                     filterBy={filterBy}
                     activeFilter={filterBy.status}
                     unfilterd={unfilterd}
                     onSetFilter={onSetFilter}
+                    onToggleMenu={onToggleMenu}
                 />
+             </div>
 
                 <main className="main-container">
                     {mails.length > 0 ? (
-                        <MailList
+                        
+                        <MailList 
                             setSortedMails={setSortedMails}
                             filterBy={filterBy}
                             onSendMail={onSendMail}
@@ -218,6 +246,7 @@ export function MailIndex() {
                             mails={mails}
                             onDelete={onDelete}
                         />
+                        
                     ) : (
                         <div>
                             You have no emails...</div>
