@@ -28,25 +28,6 @@ export function MailIndex() {
         loadMails()
     }, [filterBy])
 
-    // setMails(updatedMails)
-    // setSortedMails(updatedMails)
-    // setUnfilterd(updatedMails)
-    // useEffect(() => {
-    //     mailService.query(filterBy)
-    //     .then(setMails)
-    //     .catch(err => {
-    //         console.log('err:', err)
-    //     })
-    // }, [filterBy,mails])
-
-    // useEffect(() => {
-    //     mailService.query(filterBy)
-    //         .then(setMails)
-    //         .catch(err => {
-    //             console.log('err:', err)
-    //         })
-    // }, [setMails,onDelete])
-
 
     useEffect(() => {
         mailService.query()
@@ -76,21 +57,18 @@ export function MailIndex() {
     }
 
     function _sendMail(mail) {
-        const updatedMail = { ...mail, sentAt: Math.floor(Date.now()) }; // Consider using seconds if needed
+        const updatedMail = { ...mail, sentAt: Math.floor(Date.now()) }
 
         mailService.save(updatedMail)
             .then((savedMail) => {
-                // After saving, query for the updated mails
-                return mailService.query(filterBy);
+                return mailService.query(filterBy)
             })
             .then((mails) => {
-                // Set the mails to the state after querying
-                setMails(mails);
+                setMails(mails)
             })
             .catch(error => {
-                console.error("Failed to save mail:", error);
-                // Optionally handle error (e.g., show a notification)
-            });
+                console.error("Failed to save mail:", error)
+            })
     }
 
 
@@ -108,10 +86,10 @@ export function MailIndex() {
 
         console.log('onDelete')
         // Filter mails to delete
-        const deletedMails = mails.filter(mail => mail.isDeleted);
+        const deletedMails = mails.filter(mail => mail.isDeleted)
 
         if (deletedMails.length === 0) {
-            console.log("No mails to delete.");
+            console.log("No mails to delete.")
             return; // Exit if there are no mails to delete
         }
 
@@ -159,6 +137,7 @@ export function MailIndex() {
         mailService.save(updatedMails.find(mail => mail.id === mailId))
             .then(() => {
                 setMails(updatedMails)
+                setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
             })
             .catch(err => {
                 console.log('Problem saving mail', err)
