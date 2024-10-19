@@ -4,7 +4,7 @@ import { MailFolderList } from "../cmps/MailFolderList.jsx"
 import { mailService } from "../services/mail.service.js"
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
-
+import { MailCompose } from "../cmps/MailCompose.jsx"
 
 
 const { useState, useEffect } = React
@@ -23,7 +23,7 @@ export function MailIndex() {
 
     useEffect(() => {
         setSearchParams(utilService.getTruthyValues(filterBy))
-        if(mailFromNote.subject || mailFromNote.body) setIsComposeVisible(true)
+        if (mailFromNote.subject || mailFromNote.body) setIsComposeVisible(true)
         loadMails()
     }, [filterBy])
 
@@ -38,20 +38,20 @@ export function MailIndex() {
 
     useEffect(() => {
         mailService.query(filterBy)
-        .then(setMails)
-        .catch(err => {
-            console.log('err:', err)
-        })
-    }, [setMails])
+            .then(setMails)
+            .catch(err => {
+                console.log('err:', err)
+            })
+    }, [setMails,onDelete])
 
 
     useEffect(() => {
         mailService.query()
-        .then(setUnfilterd)
-        .catch(err => {
-            console.log('err:', err)
-        })
-    }, [mails])
+            .then(setUnfilterd)
+            .catch(err => {
+                console.log('err:', err)
+            })
+    }, [mails,onDelete])
 
 
 
@@ -62,14 +62,14 @@ export function MailIndex() {
     function onSendMail(mail) {
 
         _sendMail(mail)
-           
-                toggleCompose()
-           
+
+        toggleCompose()
+
     }
 
     function _sendMail(mail) {
         const updatedMail = { ...mail, sentAt: Math.floor(Date.now()) }; // Consider using seconds if needed
-    
+
         mailService.save(updatedMail)
             .then((savedMail) => {
                 // After saving, query for the updated mails
@@ -93,24 +93,24 @@ export function MailIndex() {
                 console.log('err:', err)
             })
 
-       
+
     }
 
     function onDelete() {
-        
-    
+
+
         // Filter mails to delete
         const deletedMails = mails.filter(mail => mail.isDeleted);
-    
+
         if (deletedMails.length === 0) {
             console.log("No mails to delete.");
             return; // Exit if there are no mails to delete
         }
-    
+
         mailService.removeAll(deletedMails)
         // // Create an array of promises for deleting each mail
         // const deletePromises = deletedMails.map(mail => mailService.remove(mail.id));
-    
+
         // // Use Promise.all to wait for all deletions to complete
         // Promise.all(deletePromises)
         //     .then(() => {
@@ -126,7 +126,7 @@ export function MailIndex() {
         //         // Handle any errors that occurred during deletion
         //     });
     }
-    
+
 
 
     function onSetFilter(filterBy) {
@@ -197,8 +197,6 @@ export function MailIndex() {
             })
     }
 
-
-    if (!mails) return <div>Loading...</div>
     return (
 
         <section className="mail-index">
@@ -225,8 +223,6 @@ export function MailIndex() {
                     {mails.length > 0 ? (
                         <MailList
                             filterBy={filterBy}
-                            toggleCompose={toggleCompose}
-                            isComposeVisible={isComposeVisible}
                             onSendMail={onSendMail}
                             onRemoveMail={onRemoveMail}
                             onReadMail={onReadMail}
@@ -235,9 +231,10 @@ export function MailIndex() {
                             onDelete={onDelete}
                         />
                     ) : (
-                        <div>Loading...</div>
+                        <div>
+                            You have no emails...</div>
                     )}
-
+                        {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail}/>}
                 </main>
             </div>
 
