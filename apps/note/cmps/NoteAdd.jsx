@@ -1,12 +1,14 @@
 import { noteService } from "../services/note.service.js"
 import { NoteTxt, NoteImg, NoteVideo, NoteTodos } from "./NoteDynamicCmp.jsx"
 const { useState } = React
+const { useNavigate } = ReactRouterDOM
 
 export function NoteAdd({ renderList, mailToNote }) {
-    const [mail, setMail] = useState({...mailToNote})
+    const [mail, setMail] = useState({ ...mailToNote })
     const condTxt = mail.body ? mail.body : mail.subject
     const cond = condTxt ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: condTxt } } : noteService.getEmptyNote()
     const [note, setNote] = useState(cond)
+    const navigate = useNavigate()
 
     function handleAdd({ target }) {
         const newNote = note
@@ -51,7 +53,9 @@ export function NoteAdd({ renderList, mailToNote }) {
             .then(newNote => {
                 renderList()
                 setNote(noteService.getEmptyNote())
-                setMail({subject: '', title: ''})
+                if (mailToNote) {
+                    navigate("/note")
+                }
             })
             .catch(err => {
                 console.log('err: NoteAdd cannot operate onSaveNote', err)
