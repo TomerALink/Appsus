@@ -1,0 +1,196 @@
+/* MOBILE ONLY */
+@media (max-width:  1076px) {
+   
+     .mail-logo, .unread-emails, .sorting, .mail-filter .mag, .unread-checkbox, .mail-preview:hover .buttons {
+        display: none;
+    }
+
+    .compos-button {
+        position: fixed;
+        right: 140px;
+        bottom: 210px;
+        z-index: 99;
+    }
+    .mail-preview .buttons{
+        display: none !important;
+    }
+    .mail-compose {
+        position: absolute;
+        inset: 0;
+        z-index: 999;
+        background-color: #fff;
+    }
+    .send-button {
+        position: absolute;
+        left: 1.5em;
+        bottom: 1.5em;
+        font-size: 1.5em;
+    }
+    .folder-list {
+        display: none;
+        top:0;
+        position: absolute;
+        z-index: 9999;
+        height: 100vh;
+        z-index: 9999;
+        background-color: aliceblue;
+
+    }
+    .modal {
+        
+        display: none;
+        position: fixed;
+    background-color: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(2px);
+    inset: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1;
+        
+    }
+   
+    .my-burger-menu {
+        display: block;
+    }
+    
+    .compose-filter-container{
+        grid-template-columns: 1fr;
+    }
+    .compose-filter-container .search {
+        display: grid;
+        grid-template-columns: 50px 5fr;
+        align-items: center;
+        margin-right: 3em;
+        width: 95vw;
+    }
+    .aside-main{
+        grid-template-columns: 1fr ;
+    }
+
+    .mail-index .main-container{
+        margin: 0;
+        font-size: 10px;
+        margin: 0 0 0 0.5em;
+    }
+
+    .mail-index .main-container ul{
+        padding-left: 0;
+        padding-right: .5em;
+    }
+
+    .mail-preview{
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 4em 1fr 2em;
+        gap:0;
+        grid-template-areas: 
+        'first-letter sender date'
+        'first-letter subject star'
+        'first-letter body star';
+    }
+    
+    .mail-preview .first-letter{
+        display: inline;
+        grid-area: first-letter;
+        font-size: 1.5em;
+        font-weight: 100;
+        text-align: center;
+    }
+
+    
+    .mail-preview .sender{
+        display: inline;
+        grid-area: sender;
+    }
+    
+    .mail-preview .send-at{
+        grid-area: date;
+        font-size: .6em;
+    }
+    
+    .mail-preview .mail-subject{
+        grid-area: subject;
+        font-size: .8em;
+    }
+    
+    .mail-preview .mail-body{
+        grid-area: body;
+        font-weight: normal;
+        font-size: .7em;
+    }
+    .mail-preview .star {
+        grid-area: star;
+    }
+
+    .mail-from{
+        display: none;
+    }
+    .mail-buttons{
+        font-size: 1.5em;
+    }
+}
+
+
+/* SMALL */
+@media (max-width: 1076px) {
+
+  
+
+}
+
+
+/* MEDIUM */
+/* @media (min-width: 920px) {
+
+    .main-container section {
+        max-width: var(--m);
+        margin: auto;
+       } 
+    .navbar .desktop-list {
+        display: none;
+    }
+
+    .mobile-list {
+        color: var(--clrPrimary7);
+        position: fixed;
+        bottom: o;
+        left: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        padding: 0.75em;
+        background-color: var(--clrPrimary3);
+
+    }
+
+    .mobile-list i {
+    font-size: 2em;
+    }
+
+    .navbar{
+        width: 100%;
+        background-color: var(--clrPrimary2);
+       
+    }
+    footer {
+        display: block;
+        background-color: var(--clrPrimary2);
+        position: fixed;
+        
+        bottom: 0;
+        width:100%;
+    }
+    footer ul {
+        justify-content: space-around;
+    }
+} */
+
+
+/* LARGE  */
+@media (min-width: 1076px) {
+
+     .my-burger-menu {
+        display: none;
+    }
+}
+

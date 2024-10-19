@@ -15,11 +15,11 @@ export const mailService = {
     query,
     get,
     remove,
+    removeAll,
     save,
     getEmptyMail,
     getDefaultFilter,
-    // add,
-    getFilterFromSearchParams,
+    getValuesFromSearchParams,
     loggedinUser
 }
 
@@ -67,12 +67,26 @@ function query(filterBy = {}) {
         })
 }
 
+function removeAll(mails){
+    const deletePromises = mails.map(mail => remove(mail.id))
+    Promise.all(deletePromises)
+    .then(() => {
+        // After deletion, you can return a success message or value
+        return "deleted";
+    })
+    .catch(error => {
+        console.error("Failed to delete some mails:", error);
+        // Handle errors appropriately, e.g., returning an error message
+        return "error";
+    });
+}
 function get(mailId) {
     return storageService.get(MAIL_KEY, mailId)
 }
 
 function remove(mailId) {
     // return Promise.reject('Oh No!')
+    console.log(mailId)
     return storageService.remove(MAIL_KEY, mailId)
 }
 
@@ -85,23 +99,16 @@ function save(mail) {
     }
 }
 
-// function add(mail) {
-//     return storageService.post(MAIL_KEY, mail)
-// }
 
 function getDefaultFilter() {
     return { 
-        status: 'inbox', //sent/trash/draft', 
-        txt: '', // no need to support complex text search
-        
-        //isRead: true,   // (optional property, if missing: show all) 
-        //isStared: true, // (optional property, if missing: show all) 
-        //lables: ['important', 'romantic'] // has any of the labels //TODO
+        status: 'inbox', 
+        txt: '', 
         } 
  
 }
 
-function getEmptyMail(id, createdAt = Date.now(), subject = '', body = '', isRead = false, isStared = false, isDeleted= false, sentAt = Date.now(), removedAt =  Date.now(), from = '', to = '') {
+function getEmptyMail(id, createdAt = Date.now(), subject = '', body = '', isRead = false, isStared = false, isDeleted=false, sentAt = Date.now(), removedAt =  Date.now(), from = '', to = '') {
     return { id, createdAt, subject, body, isRead, isStared, isDeleted, sentAt, removedAt, from, to }
 }
 
@@ -128,17 +135,20 @@ function _createMails() {
 
         saveToStorage(MAIL_KEY, mails)
     }
-    // console.log(mails)
 }
 
 
 
-function getFilterFromSearchParams(searchParams) {
+function getValuesFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
-    const status = searchParams.get('status')  || ''//'inbox'
+    const status = searchParams.get('status')  || ''
+    const subject = searchParams.get('subject')  || ''
+    const body = searchParams.get('body')  || ''
 
     return {
         txt,
-        status
+        status,
+        subject,
+        body
     }
 }

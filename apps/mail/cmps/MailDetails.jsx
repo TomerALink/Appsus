@@ -5,14 +5,14 @@ const { useParams, Link, useNavigate } = ReactRouterDOM
 
 const { useEffect, useState } = React
 
-export function MailDetails({ mailId }) {
+export function MailDetails({ mailId ,onRemoveMail}) {
   const [mail, setMail] = useState(null)
 
   const navigate = useNavigate()
 
   useEffect(() => {
     loadMail()
-  }, [mailId, mail])
+  }, [mailId])
 
   function loadMail() {
     mailService.get(mailId)
@@ -31,8 +31,9 @@ export function MailDetails({ mailId }) {
     navigate("/mail")
   }
 
-  function onSaveMailAsNote() {
-
+  function onSaveMailAsNote(subject ,body) {
+    console.log('onSaveMailAsNote',subject ,body)
+    navigate(`/note?subject=${subject}&body=${body}`)
   }
 
   function getSenderEmail(from) {
@@ -48,8 +49,8 @@ export function MailDetails({ mailId }) {
         <div className="mail-buttons">
           <span><i className="fa-solid fa-expand"></i></span>
           <span><i style={{ transform: "scaleX(-1)" }} className="fa-solid fa-share"></i></span>
-          <span onClick={onSaveMailAsNote} ><i className="fa-solid fa-paper-plane"></i></span>
-          <span><i className="fa-solid fa-trash"></i></span>
+          <span onClick={()=>onSaveMailAsNote(subject ,body)} ><i className="fa-solid fa-paper-plane"></i></span>
+          <span  onClick={()=>onRemoveMail(id)}><i className="fa-solid fa-trash"></i></span>
         </div>
       </div>
       <div>

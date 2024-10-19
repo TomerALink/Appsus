@@ -2,25 +2,27 @@
 
 const { useNavigate } = ReactRouterDOM
 import { MailPreview } from "./MailPreview.jsx"
-import { MailCompose } from "./MailCompose.jsx"
 import { mailService } from "../services/mail.service.js"
 import { Accordion } from "../cmps/Accordion.jsx"
 import { MailDetails } from "../cmps/MailDetails.jsx"
 
 const { useState, useEffect } = React
 
-export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStaredMail, isComposeVisible, filterBy, toggleCompose, onDelete }) {
+export function MailList({ setSortedMails, mails, onRemoveMail, onReadMail, onStaredMail, filterBy, onDelete }) {
     const navigate = useNavigate()
-    const [sortedMails, setSortedMails] = useState(mails)
+    
     const [sortingDiraction, setSortingDiraction] = useState(-1)
     const [dateClass, setDateClass] = useState('')
     const [subjectClass, setSubjectClass] = useState('')
 
 
 
-    useEffect(() => {
-        setSortedMails(mails)
-    }, [sortedMails])
+    // useEffect(() => {
+    //     setSortedMails(mails)
+    // }, [sortedMails, onDelete])
+    // useEffect(() => {
+    //     // setSortedMails(mails)
+    // }, [setSortedMails, onDelete])
 
     function onNavToMailDetails(id) {
         //TODO
@@ -43,7 +45,7 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
 
     function onEmptyTrashCan() {
         onDelete()
-        // console.log('onDelete')
+        console.log('onDelete')
     }
 
 
@@ -59,16 +61,15 @@ export function MailList({ onSendMail, mails, onRemoveMail, onReadMail, onStared
             {filterBy.status === 'trash' && <button className="empty-trash-can" onClick={() => onEmptyTrashCan()}><i className="fa-solid fa-trash"></i> Empty trash can</button>}
             <ul className="mail-list">
                 {mails.map(mail =>
-                    <li key={mail.id}>
+                    <li key={mail.id} >
                                 <Accordion  mail={mail} onRemoveMail={onRemoveMail} onReadMail={onReadMail} onStaredMail={onStaredMail} >
-                                  <MailDetails mailId ={mail.id}>
+                                  <MailDetails mailId ={mail.id} onRemoveMail={onRemoveMail}>
                                       mail.body
                                   </MailDetails>
                                 </Accordion>
                     </li>
                 )}
             </ul>
-            {isComposeVisible && <MailCompose toggleCompose={toggleCompose} onSendMail={onSendMail} />}
         </React.Fragment>
     )
 }

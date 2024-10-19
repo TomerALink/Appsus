@@ -1,6 +1,6 @@
 import { mailService } from "../services/mail.service.js"
 
-export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
+export function MailFolderList({ activeFilter, unfilterd, onSetFilter, onToggleMenu }) {
 
 
     function calculateSummary() {
@@ -39,12 +39,15 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
         if (status === 'inbox') filterBy = { ...mailService.getDefaultFilter(), status: status }
 
         onSetFilter(filterBy)
+        onToggleMenu()
     }
 
     var summary = calculateSummary()
 
     return (
-        <nav className="side-menu">
+        <React.Fragment>
+           
+ <nav className="side-menu">
             <ul>
                 <li onClick={() => onFilterMails('inbox')} className={activeFilter === 'inbox' ? 'active' : ''}>
                     <span className="inbox-counter">
@@ -67,7 +70,8 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
                 </li>
 
 
-                <li onClick={() => onFilterMails('draft')} className={activeFilter === 'draft' ? 'active' : ''}>
+                <li //onClick={() => onFilterMails('draft')} 
+                className={activeFilter === 'draft' ? 'active' : ''}>
                    <i className="fa-regular fa-file"></i>
                    <span>Draft</span>
                    <span>{summary.sent}</span>
@@ -81,6 +85,8 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter }) {
 
             </ul>
         </nav>
+        </React.Fragment>
+       
     );
 }
 

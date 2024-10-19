@@ -2,14 +2,20 @@
 import { mailService } from "../services/mail.service.js"
 const { useState, useEffect } = React
 const { useNavigate, useParams } = ReactRouterDOM
+const { useSearchParams } = ReactRouterDOM
 
 export function MailCompose({ onSendMail, toggleCompose }) {
 
   const [mail, setMail] = useState({ ...mailService.getEmptyMail(), ...{ from: mailService.loggedinUser.email } })
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [mailFromNote, setMailFromNote] = useState(mailService.getValuesFromSearchParams(searchParams))
 
   useEffect(() => {
 
-  }, [mail])
+    if (mailFromNote.subject) setMail(prevMail => ({ ...prevMail, subject: mailFromNote.subject }))
+    if (mailFromNote.body) setMail(prevMail => ({ ...prevMail, body: mailFromNote.body }))
+    // console.log('mailFromNote', mailFromNote)
+  }, [])
 
 
   const handleSend = (ev) => {
