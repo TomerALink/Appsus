@@ -32,7 +32,7 @@ function NoteTxtPrev({ note }) {
         <React.Fragment>
             <p>{textToShow}</p>
             {isLongText &&
-                <button className="long-txt-btn" onClick={onToggleIsShowLong}>
+                <button className="long-btn" onClick={onToggleIsShowLong}>
                     {isShowLong ? 'Show Less' : 'Read More'}
                 </button>
             }
@@ -51,16 +51,30 @@ function NoteImgPrev({ note }) {
 
 function NoteTodosPrev({ note }) {
     // i want to limit list length
-    console.log('todo:', note.info.todos)
+    // console.log('todo:', note.info.todos)
+    const [isShowLong, setIsShowLong] = useState(false)
+    const length = 2
+
+    function onToggleIsShowLong() {
+        setIsShowLong(isShowLong => !isShowLong)
+    }
+
+    const isLongList = note.info.todos.length > length
+    const listToShow = (isShowLong || !isLongList) ? note.info.todos : note.info.todos.slice(0, length)
+
     return (
         <React.Fragment>
             <h2>{note.info.title}</h2>
             <ul className='todos-list'>
-                {note.info.todos && note.info.todos.map((todo, idx) =>
+                {listToShow && listToShow.map((todo, idx) =>
                     <li key={idx} className={todo.doneAt ? 'done' : ''} >{todo.txt}</li>
                 )}
             </ul>
+            {isLongList &&
+                <button className="long-btn" onClick={onToggleIsShowLong}>
+                    {isShowLong ? 'Show Less' : 'Read More'}
+                </button>
+            }
         </React.Fragment>
     )
-
 }
