@@ -2,8 +2,10 @@ import { noteService } from "../services/note.service.js"
 import { NoteTxt, NoteImg, NoteVideo, NoteTodos } from "./NoteDynamicCmp.jsx"
 const { useState } = React
 
-export function NoteAdd({ renderList }) {
-    const [note, setNote] = useState(noteService.getEmptyNote())
+export function NoteAdd({ renderList, mailToNote }) {
+    const cond = mailToNote.body ? { ...noteService.getEmptyNote(), type: 'NoteTxt', info: { txt: mailToNote.body } } : noteService.getEmptyNote()
+    // maybe i need to change the mailToNote to {subject: null, title: null} but with the set function
+    const [note, setNote] = useState(cond)
 
     function handleAdd({ target }) {
         const newNote = note
@@ -36,13 +38,13 @@ export function NoteAdd({ renderList }) {
             setNote(newNote)
         }
         // type, isPinned
-        else setNote(prevCar => ({ ...prevCar, [field]: value }))
+        else setNote(prevNote => ({ ...prevNote, [field]: value }))
     }
 
     function onSaveNote(ev) {
         ev.preventDefault()
         const newNote = note
-        newNote.createAt = new Date()
+        newNote.createAt = Date.now()
 
         noteService.save(newNote)
             .then(newNote => {
@@ -53,7 +55,7 @@ export function NoteAdd({ renderList }) {
                 console.log('err: NoteAdd cannot operate onSaveNote', err)
             })
     }
-    // console.log('NoteAdd')
+
     const newTitle = note.info.title || ''
     return (
         <form className="note-add" onSubmit={onSaveNote}>

@@ -10,12 +10,13 @@ const { Link, useSearchParams } = ReactRouterDOM
 export function NoteIndex() {
 
     const [notes, setNotes] = useState(null)
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [mailParams, setMailParams] = useSearchParams()
     // const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
 
     useEffect(() => {
         // setSearchParams(getTruthyValues(filterBy))
         loadNotes()
+        //console.log(...mailParams)
         // }, [filterBy])
     }, [])
 
@@ -52,7 +53,7 @@ export function NoteIndex() {
     return (
         <section className="note-index">
             {/* <NoteFilter onSetFilter={onSetFilter} filterBy={filterBy} />*/}
-            <NoteAdd renderList={loadNotes}/>
+            <NoteAdd renderList={loadNotes} mailToNote={noteService.getContentFromSearchParams(mailParams)} />
             <NoteList onRemoveNote={onRemoveNote} notes={notes} />
 
         </section>
