@@ -25,7 +25,8 @@ export function NoteList({ notes, onRemoveNote }) {
                 body = `Watch the video in the following link:\n ${note.info.url}`
                 break
             case 'NoteTodos':
-                let todoList = note.info.todos.map(todo, idx => `${(idx)} - ${todo.txt} - ${todo.doneAt ? 'DONE' : 'IN PROGRESS'}`)
+                let todoList = note.info.todos.map((todo, idx) => `${(idx)} - ${todo.txt} - ${todo.doneAt ? 'DONE' : 'IN PROGRESS'}`)
+                console.log(todoList)
                 // 1 - dfds fdsf cdff sdsds sdsd  - DONE , 2 - df dfdfdf  dfdfdf? ddf - IN PROGRESS , 3 - fffg
                 // pay attention to signs: ' , ? ! [] (). i am not sure how they are converted back to text
                 todoList = todoList.join(' , ')
