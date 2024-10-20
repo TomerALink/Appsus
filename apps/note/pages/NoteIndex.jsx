@@ -44,7 +44,6 @@ export function NoteIndex() {
         <section className="note-index">
             <NoteAdd renderList={loadNotes} mailToNote={noteService.getContentFromSearchParams(mailParams)} />
             <NoteList onRemoveNote={onRemoveNote} notes={notes} />
-
         </section>
     )
 

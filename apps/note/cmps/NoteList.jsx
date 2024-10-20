@@ -39,9 +39,8 @@ export function NoteList({ notes, onRemoveNote }) {
                     <li key={note.id} className="note-content" style={note.style}>
                         <NotePreview note={note} />
                         <section className="note-btn">
-                            <button onClick={() => onSendNote(note)}>Send</button>
-                            <button onClick={() => onEditNote(note)}>Edit</button>
-                            <button onClick={() => onRemoveNote(note.id)}>Remove</button>
+                            <button onClick={() => onSendNote(note)} name="send" className="fa-solid fa-paper-plane"></button>
+                            <button onClick={() => onRemoveNote(note.id)} name="delete" className="fa-solid fa-trash-can"></button>
                         </section>
                     </li>
                 )}

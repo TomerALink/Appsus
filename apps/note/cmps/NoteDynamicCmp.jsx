@@ -55,15 +55,15 @@ export function NoteTodos({ note, handleAdd }) {
         <Fragment>
             <div className='todos-add'>
                 <input value={todoTxt} onChange={(ev) => setTodo(prevTodo => ({ ...prevTodo, txt: ev.target.value }))} type="text" name="todo" id="todo" placeholder="Enter list item" />
-                <button type="button" onClick={handleList}>Add</button>
+                <button type="button" className="fa-solid fa-plus" onClick={handleList}></button>
             </div>
             <ul className='todos-list' style={note.style}>
                 {(note.info.todos.length > 0) && note.info.todos.map((item, idx) => {
                     return (
                         <li key={idx} className={item.doneAt ? 'done' : ''} >
                             <span>{item.txt}</span>
-                            <button type='button' onClick={() => onDoneTodo(item, idx)}>v</button>
-                            <button type='button' onClick={() => onRemoveTodo(idx)}>x</button>
+                            <button type='button' className="fa-solid fa-check" onClick={() => onDoneTodo(item, idx)}></button>
+                            <button type='button' className="fa-solid fa-xmark" onClick={() => onRemoveTodo(idx)}></button>
                         </li>
                     )
                 })}

@@ -96,9 +96,9 @@ export function NoteAdd({ renderList, mailToNote }) {
     return (
         <form className="note-select-type-title" onSubmit={onSaveNote}>
             <input type='text' disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} name="title" id="title" placeholder="Take a note" />
-            <button type='button' value={'NoteTxt'} className={note.type === 'NoteTxt' ? 'marked' : ''} onClick={handleAdd} name="type" >text</button>
-            <button type='button' value={'NoteImg'} className={note.type === 'NoteImg' ? 'marked' : ''} onClick={handleAdd} name="type" >image</button>
-            <button type='button' value={'NoteTodos'} className={note.type === 'NoteTodos' ? 'marked' : ''} onClick={handleAdd} name="type" >todos</button>
+            <button type='button' value={'NoteTxt'} className={`fa-solid fa-pen ${note.type === 'NoteTxt' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
+            <button type='button' value={'NoteImg'} className={`fa-solid fa-image ${note.type === 'NoteImg' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
+            <button type='button' value={'NoteTodos'} className={`fa-solid fa-list ${note.type === 'NoteTodos' ? 'marked' : ''}`} onClick={handleAdd} name="type" ></button>
             <div className="note-select-content">
                 <DynamicCmp note={note} handleAdd={handleAdd} />
             </div>
@@ -115,7 +115,7 @@ export function NoteAdd({ renderList, mailToNote }) {
                 <option value="#b2c2bf">grey</option>
                 <option value="#fff2df">cream</option>
             </datalist>
-            <button type='submit' disabled={!note.type} >save</button>
+            <button type='submit' disabled={!note.type} className="fa-solid fa-bookmark"></button>
         </form>
     )
 

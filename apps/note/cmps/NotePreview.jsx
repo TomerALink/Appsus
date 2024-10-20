@@ -1,7 +1,6 @@
 const { useState } = React
 
 export function NotePreview({ note }) {
-    // const showTxt = note.info.title || note.info.txt
     return (
         <DynamicCmp note={note} />
     )
@@ -20,7 +19,7 @@ function DynamicCmp(props) {
 
 function NoteTxtPrev({ note }) {
     const [isShowLong, setIsShowLong] = useState(false)
-    const length = 5
+    const length = 100
 
     function onToggleIsShowLong() {
         setIsShowLong(isShowLong => !isShowLong)
@@ -50,10 +49,8 @@ function NoteImgPrev({ note }) {
 }
 
 function NoteTodosPrev({ note }) {
-    // i want to limit list length
-    // console.log('todo:', note.info.todos)
     const [isShowLong, setIsShowLong] = useState(false)
-    const length = 2
+    const length = 4
 
     function onToggleIsShowLong() {
         setIsShowLong(isShowLong => !isShowLong)
