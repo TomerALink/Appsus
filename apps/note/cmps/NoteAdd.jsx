@@ -94,29 +94,37 @@ export function NoteAdd({ renderList, mailToNote }) {
     const newTitle = note.info.title || ''
     const newColor = note.style.backgroundColor || "#ffffff"
     return (
-        <form className="note-select-type-title" onSubmit={onSaveNote}>
-            <input type='text' disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} name="title" id="title" placeholder="Take a note" />
-            <button type='button' value={'NoteTxt'} className={`fa-solid fa-pen ${note.type === 'NoteTxt' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
-            <button type='button' value={'NoteImg'} className={`fa-solid fa-image ${note.type === 'NoteImg' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
-            <button type='button' value={'NoteTodos'} className={`fa-solid fa-list ${note.type === 'NoteTodos' ? 'marked' : ''}`} onClick={handleAdd} name="type" ></button>
-            <div className="note-select-content">
-                <DynamicCmp note={note} handleAdd={handleAdd} />
-            </div>
-            <input type='color' disabled={!note.type} value={newColor} onChange={handleAdd} name="style" id="style" list="colors" />
-            <datalist id="colors">
-                <option value="#ffffff">white</option>
-                <option value="#eea29a">pink</option>
-                <option value="#b5e7a0">green</option>
-                <option value="#ffef96">yellow</option>
-                <option value="#f2ae72">orange</option>
-                <option value="#80ced6">blue</option>
-                <option value="#b0aac0">purple</option>
-                <option value="#dac292">brown</option>
-                <option value="#b2c2bf">grey</option>
-                <option value="#fff2df">cream</option>
-            </datalist>
-            <button type='submit' disabled={!note.type} className="fa-solid fa-bookmark"></button>
-        </form>
+        <section className="note-add">
+            <form className="note-add-form" onSubmit={onSaveNote}>
+                <div className="note-add-start">
+                    <input type='text' disabled={note.type === 'NoteTxt'} value={newTitle} onChange={handleAdd} name="title" id="title" placeholder="Take a note" />
+                    <div className='note-add-button'>
+                        <button type='button' value={'NoteTxt'} className={`fa-solid fa-pen ${note.type === 'NoteTxt' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
+                        <button type='button' value={'NoteImg'} className={`fa-solid fa-image ${note.type === 'NoteImg' ? 'marked' : ''}`} onClick={handleAdd} name="type"></button>
+                        <button type='button' value={'NoteTodos'} className={`fa-solid fa-list ${note.type === 'NoteTodos' ? 'marked' : ''}`} onClick={handleAdd} name="type" ></button>
+                    </div>
+                </div>
+                <div className="note-add-content">
+                    <DynamicCmp note={note} handleAdd={handleAdd} />
+                </div>
+                <div className="note-add-finish">
+                    <input type='color' disabled={!note.type} value={newColor} onChange={handleAdd} name="style" id="style" list="colors" />
+                    <datalist id="colors">
+                        <option value="#ffffff">white</option>
+                        <option value="#eea29a">pink</option>
+                        <option value="#b5e7a0">green</option>
+                        <option value="#ffef96">yellow</option>
+                        <option value="#f2ae72">orange</option>
+                        <option value="#80ced6">blue</option>
+                        <option value="#b0aac0">purple</option>
+                        <option value="#dac292">brown</option>
+                        <option value="#b2c2bf">grey</option>
+                        <option value="#fff2df">cream</option>
+                    </datalist>
+                    <button type='submit' disabled={!note.type} className="fa-solid fa-bookmark"></button>
+                </div>
+            </form>
+        </section>
     )
 
 }

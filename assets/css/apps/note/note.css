@@ -5,13 +5,14 @@
 }
 
 .note-index {
-    padding: 2em;
-    /* margin: 0 auto; */
+    padding: 0 2em;
 }
 
 .note-list {
     columns: 12em;
     column-gap: 1em;
+    margin: 0;
+    padding: 0;
 }
 
 .note-content {
@@ -36,18 +37,18 @@
     border-radius: 50%;
 }
 
-.note-btn button:hover{
+.note-btn button:hover {
     background: #00000025;
 }
 
 .note-content p {
     margin: 0.5em;
-	line-height: 1.4em;
+    line-height: 1.4em;
 }
 
 .note-content .long-btn {
     cursor: pointer;
-	background: #00000025;
+    background: #00000025;
     border: 0;
     padding: 0.3em auto;
 }
@@ -55,23 +56,111 @@
 .note-content h2 {
     font-size: 1.2rem;
     margin: 0.3em;
-	line-height: 1.2em;
+    line-height: 1.2em;
 }
 
 .note-content img {
     border-radius: 0.3em;
 }
 
-.note-content .todos-list{
+.note-content .todos-list {
     line-height: 1.4em;
     padding: 0.3em 1.7em;
-} 
+}
 
 .note-content .todos-list .done {
     text-decoration-line: line-through
-
 }
 
-.note-select-type-title{
-    position: center;
+.note-add {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-add-form {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2em 0;
+}
+
+.note-add-start {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.note-add-button {
+    display: block;
+}
+
+.note-add-start input {
+    width: 80%;
+}
+
+.note-add-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.note-add-content textarea {
+    width: 90%;
+    border: 0.1em solid #cecdcd;
+    border-radius: 0.1em;
+}
+
+.note-add-content input {
+    width: 90%;
+    border: 0.1em solid #cecdcd;
+    border-radius: 0.1em;
+}
+
+.todos-add {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.todos-add-item {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.todos-add-list {
+    width: 95%;
+    min-height: 1.2em;
+    margin: 0;
+    padding: 0.2em 0.5em;
+    line-height: 1.7em;
+    border: 0.1em solid #cecdcd;
+    border-radius: 0.1em;
+    list-style-type: none;
+}
+
+.todos-add-list .done {
+    text-decoration-line: line-through;
+}
+
+.note-add button {
+    cursor: pointer;
+    background: inherit;
+    border: 0;
+    padding: 0.5em;
+    border-radius: 50%;
+}
+
+.note-add button:hover {
+    background: #00000025;
 }

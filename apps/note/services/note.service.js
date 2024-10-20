@@ -50,7 +50,6 @@ function getEmptyNote(id, createdAt = Date.now(), type = '', style = { backgroun
     return { id, createdAt, type, style, info }
 }
 function _createNotes() {
-    console.log('_createNotes')
     let notes = loadFromStorage(NOTE_KEY)
 
     if (!notes || !notes.length) {
@@ -62,14 +61,12 @@ function _createNotes() {
 
         saveToStorage(NOTE_KEY, notes)
     }
-    console.log(notes)
 }
 
 
 function _createNote(newNote) {
     const { id, createdAt, type, style, info } = newNote
     const note = getEmptyNote(id, createdAt, type, style, info)
-    console.log(note)
     if (!id) note.id = makeId()
 
     return note

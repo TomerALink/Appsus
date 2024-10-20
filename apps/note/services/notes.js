@@ -4,7 +4,7 @@ export const hc_notes = [
         createdAt: 1112222,
         type: 'NoteTxt',
         style: {
-            backgroundColor: '#ffffff'
+            backgroundColor: '#fff2df'
         },
         info: {
             txt: 'Paleontologists and archaeologists have determined that about 60 million years ago a small mammal, rather like a weasel, lived in the environs of what are now parts of Asia. It is called Miacis, the genus that became the ancestor of the animals known today as canids: dogs, jackals, wolves, and foxes. source: https://www.britannica.com/animal/dog'
@@ -27,7 +27,7 @@ export const hc_notes = [
         createdAt: 1112224,
         type: 'NoteTodos',
         style: {
-            backgroundColor: '#ffffff'
+            backgroundColor: '#b5e7a0'
         },
         info: {
             title: 'Get my stuff together',
@@ -43,7 +43,7 @@ export const hc_notes = [
         createdAt: 1112224,
         type: 'NoteTodos',
         style: {
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffef96'
         },
         info: {
             title: 'Ingredients for Shoyu ramen broth',
@@ -65,7 +65,7 @@ export const hc_notes = [
         createdAt: 1112224,
         type: 'NoteImg',
         style: {
-            backgroundColor: '#ffffff'
+            backgroundColor: '#eea29a'
         },
         info: {
             title: 'Yummmmy',
@@ -77,7 +77,7 @@ export const hc_notes = [
         createdAt: 1112224,
         type: 'NoteTxt',
         style: {
-            backgroundColor: '#ffffff'
+            backgroundColor: '#b0aac0'
         },
         info: {
             txt: 'Wed 7PM - meets Noga'
