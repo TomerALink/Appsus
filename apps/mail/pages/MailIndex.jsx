@@ -51,15 +51,17 @@ export function MailIndex() {
         // const menu = document.querySelector('.side-menu');
         // const modal = document.querySelector('.modal');
         console.log(menu.current.style)
-        if(menu.current.style.display === 'block') {
-            menu.current.style.display = 'none'
-            modal.current.style.display = 'none'
-            console.log("none")
-        } else {
-             menu.current.style.display = 'block'
-            modal.current.style.display = 'block'
-            console.log("block")
-        }
+        if(window.innerWidth <1076){
+            if(menu.current.style.display === 'block') {
+                menu.current.style.display = 'none'
+                modal.current.style.display = 'none'
+                console.log("none")
+            } else {
+                 menu.current.style.display = 'block'
+                modal.current.style.display = 'block'
+                console.log("block")
+            }
+        }    
     }
     
 
