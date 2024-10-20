@@ -15,6 +15,7 @@
     height: 100%;
     padding: 0 1.4em;
     object-fit: unset;
+    box-sizing: unset;
 }
 
 .logo-compose {
