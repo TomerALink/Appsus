@@ -58,7 +58,7 @@ export function MailList({ setSortedMails, mails, onRemoveMail, onReadMail, onSt
                 <button onClick={() => onSortBy('date')}> <i className={`fa-solid fa-angle-down ${dateClass}`}></i> Date</button>
                 <button onClick={() => onSortBy('subject')}><i className={`fa-solid fa-angle-down ${subjectClass}`}></i>  Subject</button>
             </div>
-            {filterBy.status === 'trash' && <button className="empty-trash-can" onClick={() => onEmptyTrashCan()}><i className="fa-solid fa-trash"></i> Empty trash can</button>}
+            {/* {filterBy.status === 'trash' && <button className="empty-trash-can" onClick={() => onEmptyTrashCan()}><i className="fa-solid fa-trash"></i> Empty trash can</button>} */}
             <ul className="mail-list">
                 {mails.map(mail =>
                     <li key={mail.id} >

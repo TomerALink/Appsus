@@ -70,12 +70,12 @@ export function MailFolderList({ activeFilter, unfilterd, onSetFilter, onToggleM
                 </li>
 
 
-                <li //onClick={() => onFilterMails('draft')} 
+                {/* <li //onClick={() => onFilterMails('draft')} 
                 className={activeFilter === 'draft' ? 'active' : ''}>
                    <i className="fa-regular fa-file"></i>
                    <span>Draft</span>
                    <span>{summary.sent}</span>
-                </li>
+                </li> */}
 
                 <li onClick={() => onFilterMails('trash')} className={activeFilter === 'trash' ? 'active' : ''}>
                     <i className="fa-solid fa-trash"></i>
