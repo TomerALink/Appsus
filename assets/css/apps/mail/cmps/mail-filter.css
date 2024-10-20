@@ -12,8 +12,9 @@
 .mail-logo {
     /* transform: rotate(180deg); */
     width: 4em;
-    height: auto;
+    height: 100%;
     padding: 0 1.4em;
+    object-fit: unset;
 }
 
 .logo-compose {
