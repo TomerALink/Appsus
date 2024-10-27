@@ -1,17 +1,20 @@
 /* MOBILE ONLY */
 @media (max-width:  1076px) {
-   
-     .mail-logo, .unread-emails, .sorting, .mail-filter .mag, .unread-checkbox, .mail-preview:hover .buttons {
+    .mail-logo, .unread-emails, .sorting, .mail-filter .mag, .unread-checkbox, .mail-preview:hover .buttons {
         display: none;
     }
-
+    
     .compos-button {
         position: fixed;
         right: 140px;
         bottom: 210px;
         z-index: 99;
     }
+    .mail-preview {
+        font-size: 16px;
+    }
     .mail-preview .buttons{
+   
         display: none !important;
     }
     .mail-compose {
@@ -60,7 +63,6 @@
         display: grid;
         grid-template-columns: 50px 5fr;
         align-items: center;
-        margin-right: 3em;
         width: 95vw;
     }
     .aside-main{
