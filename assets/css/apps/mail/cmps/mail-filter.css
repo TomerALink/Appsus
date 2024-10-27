@@ -37,8 +37,13 @@
     padding-right: 1em;
 }
 
-.mail-filter .search {
+.mail-filter {
+    box-sizing: border-box;
+    max-width: fit-content;
+}
 
+.mail-filter .search {
+    box-sizing: border-box;
     border-radius: 1.25em;
     border: solid 1px none;
     padding-left: 1em;
@@ -49,7 +54,7 @@
 
 .mail-filter input {
     border: none;
-    padding: .5em 1em;
+    padding: .5em 0;
     background-color: transparent;
     font-size: 1em;
 }

@@ -33,7 +33,7 @@ export function MailFilter({ filterBy, onSetFilter, onToggleMenu }) {
     return (
         <section className="mail-filter">
 
-            <form>
+       
                 <div className="search">
                     
                         <i className="mag fa-solid fa-magnifying-glass"></i>
@@ -48,9 +48,7 @@ export function MailFilter({ filterBy, onSetFilter, onToggleMenu }) {
                     <input type="checkbox" value={false} onChange={handleChange} name="unread" id="unread" />
                     {"Unread emails"}
                     </span>
-              
-
-            </form>
+         
         </section>
     )
 }
